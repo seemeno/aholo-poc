@@ -1,0 +1,50 @@
+# Credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Reinstallable dependencies and local inference models
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+/.local-python/
+/runtime/
+*.safetensors
+*.onnx
+*.pt
+*.pth
+*.ckpt
+*.whl
+
+# User spaces, generated outputs and optional local demo media
+/local-data/
+/assets/demo/
+/output/
+/tmp/
+/run/
+/scene/
+/.archive/
+/.transfer_helpers/
+/.alignment-cache/
+/.alignment-python/
+/.alignment-venv/
+/.alignment-tools/
+
+# Download fragments, backups and logs
+*.part
+*.download
+*.log
+*.bak
+*.zip
+*.tar.gz
+*.mp4
+*.mov
+*.blend
+*.blend1
+.DS_Store
+Thumbs.db
+

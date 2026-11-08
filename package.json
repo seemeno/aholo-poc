@@ -1,0 +1,18 @@
+{
+  "name": "aholo-placement-poc",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node structure_server.mjs --lan",
+    "start:local": "node structure_server.mjs",
+    "check:repo": "node scripts/check-repository.mjs",
+    "test:python": "node scripts/test-python.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "@sparkjsdev/spark": "2.4.0",
+    "qrcode": "1.5.4",
+    "three": "0.180.0"
+  }
+}

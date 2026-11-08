@@ -1,0 +1,849 @@
+{
+  "schemaVersion": 1,
+  "worldId": "3FO4K4RIGVTB",
+  "upAxis": "Z",
+  "units": "m",
+  "sourceToAligned": [
+    [
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      1.2029221057891846
+    ],
+    [
+      0,
+      0,
+      0,
+      1
+    ]
+  ],
+  "floor": {
+    "id": "floor_0",
+    "z": 0,
+    "bounds": [
+      [
+        -1.7078925848007203,
+        -5.573344707489014
+      ],
+      [
+        3.0671074151992794,
+        5.951655292510987
+      ]
+    ],
+    "method": "horizontal coverage voting, lower 40% of Z",
+    "status": "CANDIDATE",
+    "supportCount": 12117,
+    "rmse": 0.02199485242195765,
+    "polygon": [
+      [
+        -1.7078925848007203,
+        -5.573344707489014
+      ],
+      [
+        -0.23289258480072017,
+        -5.573344707489014
+      ],
+      [
+        -0.23289258480072017,
+        -5.148344707489014
+      ],
+      [
+        1.5671074151992799,
+        -5.148344707489014
+      ],
+      [
+        1.5671074151992799,
+        -0.32334470748901367
+      ],
+      [
+        2.79210741519928,
+        -0.32334470748901367
+      ],
+      [
+        2.79210741519928,
+        0.8016552925109863
+      ],
+      [
+        1.7421074151992797,
+        0.8016552925109863
+      ],
+      [
+        1.7421074151992797,
+        4.801655292510986
+      ],
+      [
+        3.0671074151992794,
+        4.801655292510986
+      ],
+      [
+        3.0671074151992794,
+        5.951655292510987
+      ],
+      [
+        -1.7078925848007203,
+        5.951655292510987
+      ],
+      [
+        -1.7078925848007203,
+        5.051655292510986
+      ],
+      [
+        -0.9828925848007202,
+        5.051655292510986
+      ],
+      [
+        -0.9828925848007202,
+        4.801655292510986
+      ],
+      [
+        -0.9828925848007202,
+        4.601655292510987
+      ],
+      [
+        -1.7078925848007203,
+        4.601655292510987
+      ]
+    ],
+    "source": "AHOLO_SPATIAL_CLOSED_BOUNDARY_WITH_LOCAL_FLOOR_Z",
+    "boundaryStatus": "SEMANTIC_CANDIDATE_NEEDS_VISUAL_REVIEW",
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "supportRatio": 0.1420918769272322,
+    "connectedComponents": 1,
+    "selectedComponentCells": 377,
+    "excludedComponents": 0,
+    "unmodelledInteriorLoops": 0,
+    "unconstrainedNormal": [
+      0.0031079419979125654,
+      0.0002761796992637256,
+      0.9999951321988079
+    ],
+    "normalTiltDegrees": 0.17877394457112392
+  },
+  "walls": [
+    {
+      "id": "wall_0",
+      "a": [
+        -1.7078925848007203,
+        -5.573344707489014,
+        0
+      ],
+      "b": [
+        -0.23289258480072017,
+        -5.573344707489014,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_1",
+      "a": [
+        -1.7078925848007203,
+        -5.573344707489014,
+        0
+      ],
+      "b": [
+        -1.7078925848007203,
+        4.601655292510987,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_2",
+      "a": [
+        -0.23289258480072017,
+        -5.573344707489014,
+        0
+      ],
+      "b": [
+        -0.23289258480072017,
+        -5.148344707489014,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        -1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_3",
+      "a": [
+        -0.23289258480072017,
+        -5.148344707489014,
+        0
+      ],
+      "b": [
+        1.5671074151992799,
+        -5.148344707489014,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_4",
+      "a": [
+        1.5671074151992799,
+        -5.148344707489014,
+        0
+      ],
+      "b": [
+        1.5671074151992799,
+        -0.32334470748901367,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        -1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_5",
+      "a": [
+        1.5671074151992799,
+        -0.32334470748901367,
+        0
+      ],
+      "b": [
+        2.79210741519928,
+        -0.32334470748901367,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_6",
+      "a": [
+        2.79210741519928,
+        -0.32334470748901367,
+        0
+      ],
+      "b": [
+        2.79210741519928,
+        0.8016552925109863,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        -1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_7",
+      "a": [
+        1.7421074151992797,
+        0.8016552925109863,
+        0
+      ],
+      "b": [
+        2.79210741519928,
+        0.8016552925109863,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        -1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_8",
+      "a": [
+        1.7421074151992797,
+        0.8016552925109863,
+        0
+      ],
+      "b": [
+        1.7421074151992797,
+        4.801655292510986,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        -1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_9",
+      "a": [
+        -1.7078925848007203,
+        4.601655292510987,
+        0
+      ],
+      "b": [
+        -0.9828925848007202,
+        4.601655292510987,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        -1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_10",
+      "a": [
+        -0.9828925848007202,
+        4.601655292510987,
+        0
+      ],
+      "b": [
+        -0.9828925848007202,
+        4.801655292510986,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_13",
+      "a": [
+        -0.9828925848007202,
+        4.801655292510986,
+        0
+      ],
+      "b": [
+        -0.9828925848007202,
+        5.051655292510986,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_14",
+      "a": [
+        1.7421074151992797,
+        4.801655292510986,
+        0
+      ],
+      "b": [
+        3.0671074151992794,
+        4.801655292510986,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_15",
+      "a": [
+        3.0671074151992794,
+        4.801655292510986,
+        0
+      ],
+      "b": [
+        3.0671074151992794,
+        5.951655292510987,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        -1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_16",
+      "a": [
+        -1.7078925848007203,
+        5.051655292510986,
+        0
+      ],
+      "b": [
+        -0.9828925848007202,
+        5.051655292510986,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_17",
+      "a": [
+        -1.7078925848007203,
+        5.051655292510986,
+        0
+      ],
+      "b": [
+        -1.7078925848007203,
+        5.951655292510987,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    },
+    {
+      "id": "wall_18",
+      "a": [
+        -1.7078925848007203,
+        5.951655292510987,
+        0
+      ],
+      "b": [
+        3.0671074151992794,
+        5.951655292510987,
+        0
+      ],
+      "height": 2.7503127479553227,
+      "thickness": 0,
+      "normal": [
+        0,
+        -1,
+        0
+      ],
+      "source": "AHOLO_SPATIAL_DSL",
+      "status": "SEMANTIC_CANDIDATE",
+      "enabled": true,
+      "normalBasis": "inside closed boundary polygon",
+      "sourceBaseZ": 0.010312747955322263,
+      "baseAdjustment": -0.010312747955322263
+    }
+  ],
+  "openings": [
+    {
+      "id": "door_0",
+      "type": "Door",
+      "wallId": "wall_5",
+      "center": [
+        2.2671074151992796,
+        -0.32334470748901367,
+        1.0353127479553224
+      ],
+      "width": 0.8,
+      "height": 2.04,
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "door_1",
+      "type": "Door",
+      "wallId": "wall_6",
+      "center": [
+        2.79210741519928,
+        0.22665529251098615,
+        1.0353127479553224
+      ],
+      "width": 0.8,
+      "height": 2.04,
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "door_2",
+      "type": "Door",
+      "wallId": "wall_14",
+      "center": [
+        2.4421074151992794,
+        4.801655292510986,
+        1.0353127479553224
+      ],
+      "width": 0.8,
+      "height": 2.04,
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "window_0",
+      "type": "Window",
+      "wallId": "wall_18",
+      "center": [
+        0.8171074151992799,
+        5.951655292510987,
+        1.5353127479553224
+      ],
+      "width": 4.24,
+      "height": 1.7600000000000002,
+      "source": "AHOLO_SPATIAL_DSL"
+    }
+  ],
+  "boxes": [
+    {
+      "id": "bbox_0",
+      "class": "shoe_cabinet",
+      "center": [
+        -1.5328925848007202,
+        -4.773344707489014,
+        1.2353127479553223
+      ],
+      "yaw": -1.5708000000000002,
+      "size": [
+        2.34375,
+        0.34375,
+        2.4375
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_1",
+      "class": "washing_cabinet",
+      "center": [
+        0.6921074151992799,
+        -4.773344707489014,
+        0.6853127479553223
+      ],
+      "yaw": -3.1416,
+      "size": [
+        1.71875,
+        0.734375,
+        1.359375
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_2",
+      "class": "painting",
+      "center": [
+        0.8921074151992796,
+        -5.098344707489014,
+        1.7103127479553222
+      ],
+      "yaw": -3.1416,
+      "size": [
+        0.984375,
+        0.09375,
+        0.59375
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_3",
+      "class": "shoe_cabinet",
+      "center": [
+        -1.4578925848007203,
+        -2.9983447074890135,
+        1.2353127479553223
+      ],
+      "yaw": -1.5708000000000002,
+      "size": [
+        3.28125,
+        0.34375,
+        2.4375
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_4",
+      "class": "chair",
+      "center": [
+        1.0171074151992796,
+        -2.1733447074890138,
+        0.3853127479553223
+      ],
+      "yaw": -1.5708000000000002,
+      "size": [
+        0.671875,
+        0.6875,
+        0.765625
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_5",
+      "class": "chandelier",
+      "center": [
+        0.54210741519928,
+        -1.2983447074890133,
+        2.1853127479553223
+      ],
+      "yaw": -1.5708000000000002,
+      "size": [
+        0.515625,
+        0.515625,
+        0.890625
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_6",
+      "class": "coffee_table",
+      "center": [
+        0.4921074151992797,
+        -1.1733447074890133,
+        0.41031274795532224
+      ],
+      "yaw": -3.1416,
+      "size": [
+        1,
+        1,
+        0.796875
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_7",
+      "class": "chair",
+      "center": [
+        0.8671074151992797,
+        -0.348344707489014,
+        0.3853127479553223
+      ],
+      "yaw": -0.41233500000000056,
+      "size": [
+        0.671875,
+        0.6875,
+        0.765625
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_8",
+      "class": "sofa",
+      "center": [
+        0.5921074151992798,
+        1.0766552925109867,
+        0.3853127479553223
+      ],
+      "yaw": -3.1416,
+      "size": [
+        2.015625,
+        0.90625,
+        0.75
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_9",
+      "class": "chair",
+      "center": [
+        -0.8328925848007203,
+        2.651655292510986,
+        0.4603127479553223
+      ],
+      "yaw": -0.009817500000000479,
+      "size": [
+        0.6875,
+        0.6875,
+        0.90625
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_10",
+      "class": "desk",
+      "center": [
+        -1.4078925848007202,
+        2.976655292510987,
+        0.6103127479553223
+      ],
+      "yaw": -1.5708000000000002,
+      "size": [
+        1.796875,
+        0.59375,
+        1.21875
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_11",
+      "class": "carpet",
+      "center": [
+        0.09210741519927979,
+        4.976655292510987,
+        0.010312747955322263
+      ],
+      "yaw": -1.5708000000000002,
+      "size": [
+        1.640625,
+        2.15625,
+        0.09375
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    },
+    {
+      "id": "bbox_12",
+      "class": "air_conditioner",
+      "center": [
+        -1.4578925848007203,
+        4.476655292510987,
+        0.9353127479553223
+      ],
+      "yaw": -3.1416,
+      "size": [
+        0.40625,
+        0.21875,
+        1.859375
+      ],
+      "source": "AHOLO_SPATIAL_DSL"
+    }
+  ],
+  "quality": {
+    "skippedDegenerateWalls": 2
+  }
+}

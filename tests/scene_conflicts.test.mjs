@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {LocalProjects} from '../local_projects.mjs';
+import {makeScene} from '../scene_state.mjs';
+test('stale device saves are rejected while latest device can save without changing the previous backup',async t=>{
+ const root=await fs.mkdtemp(path.join(os.tmpdir(),'aholo-save-conflict-'));
+ t.after(async()=>{assert.equal(path.dirname(path.resolve(root)),path.resolve(os.tmpdir()));assert.ok(path.basename(root).startsWith('aholo-save-conflict-'));await fs.rm(root,{recursive:true,force:true});});
+ const manager=new LocalProjects(root),p=await manager.create({mode:'ply'});
+ const structure=JSON.parse(await fs.readFile(new URL('./fixtures/room-structure.json',import.meta.url)));
+ p.worldId=structure.worldId;p.status='READY';await manager.save(p);
+ const scene=makeScene(structure);scene.projectId=p.id;
+ const first=await manager.scene(p.id,{...scene,expectedSavedAt:null});
+ const second=await manager.scene(p.id,{...scene,expectedSavedAt:first.savedAt});assert.notEqual(first.savedAt,second.savedAt);
+ await assert.rejects(manager.scene(p.id,{...scene,expectedSavedAt:first.savedAt}),e=>e.statusCode===409);
+ assert.equal((await manager.scene(p.id)).savedAt,second.savedAt);
+ assert.equal(Object.hasOwn(await manager.scene(p.id),'expectedSavedAt'),false);
+ const backup=JSON.parse(await fs.readFile(path.join(manager.dir(p.id),'placement.json.bak')));assert.equal(backup.savedAt,first.savedAt);
+});

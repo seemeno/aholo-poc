@@ -1,0 +1,4 @@
+# Main application's local geometry and image checks (Python 3.11+).
+# GPU inference is a separate environment; see config/flux/requirements.txt.
+numpy==2.3.4
+opencv-python-headless==5.0.0.93
