@@ -233,7 +233,7 @@ function detail(p){const ui=checks.get(p.id)??{};checks.set(p.id,ui);
  projectIssueBox.remove();
  $('detail').innerHTML=`${p.experience==='quick-try-on'?`<section class="quick-progress"><h2>${quickPreviewReady(p,jobs)?'试摆已准备好':'正在准备你的试摆'}</h2><p>房间：${escape(p.message??names[p.status])}</p><p>物品：${escape(jobs.find(j=>j.id===p.quickTryOnJobId)?.message??(p.quickTryOnJobId?'正在读取物品任务…':'等待物品照片'))}</p><p class="muted">两项就绪后自动进入三维预览；离开页面后可从这个项目继续。</p></section>`:''}<details id="preparationDetails" class="preparation-details" ${ui.detailsOpen?'open':''}><summary>房间与物品<span class="tiny">${progress.total?' · '+progress.total+' 件物品':''}</span></summary><div id="preparationBody">
  <section class="preparation-room-state" data-state="${progress.room.state}"><strong>场景${escape(progress.room.label)}</strong><p>${escape(progress.room.needsResume?'电脑上的处理已中断，可继续已有场景任务。':p.status==='READY'?'场景已就绪，点击上方“进入试摆”开始摆放。':progress.room.state==='attention'?(p.error||message):message)}</p>${progress.room.state==='running'?'<progress aria-label="场景处理进度"></progress>':''}</section>
- 
+
  <div class="project-actions">${p.status==='READY'?'':p.status==='DRAFT'?`<button id="start" class="primary">${singleImageDraft?'开始生成三维空间':p.mode==='generation'?'开始 AI 生成':isRecon?'开始实景重建':'开始本地提取'}</button>`:roomProgress(p).needsResume?'<button id="start">继续处理场景</button>':''}</div>
  ${p.uploads.some(u=>u.kind==='image')||p.status==='READY'?`<img class="project-cover" data-fallback src="/api/projects/${p.id}/reference" alt="${escape(p.name)}的参考照片">`:''}
 

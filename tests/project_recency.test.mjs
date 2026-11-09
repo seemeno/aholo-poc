@@ -24,4 +24,3 @@ test('opening or editing an old space moves it first; polling never changes orde
  assert.equal((await projects.list())[0].id,newer.id);
  await projects.remove(old.id);assert.equal((await fetch(url+'/api/projects/'+old.id+'/visit',{method:'POST',headers:{'Content-Type':'application/json',Origin:url},body:'{}'})).status,404);
 });
-
