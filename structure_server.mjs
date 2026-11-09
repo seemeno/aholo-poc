@@ -9,31 +9,40 @@ import {LocalProjects} from './local_projects.mjs';
 import {LocalObjectAssets} from './local_object_assets.mjs';
 import {installNetworkAudit} from './network_audit.mjs';
 import {createAccess,privateIPv4s} from './lan_access.mjs';
+import {createStudioAccess} from './studio_access.mjs';
+import {deploymentSettings,dataDirectory} from './runtime_config.mjs';
 import {LocalEffectRenderer} from './effect_render.mjs';
 import {EffectRuntime} from './effect_runtime.mjs';
 import {handleEffectRoutes} from './effect_routes.mjs';
+import {PersonalCredentials} from './personal_credentials.mjs';
+import {PersonalEffects} from './personal_effects.mjs';
+import {showcaseAvailable} from './showcase.mjs';
 import {ObjectGenerations} from './object_generation.mjs';
 import {handleObjectGenerationRoutes} from './object_generation_routes.mjs';
 import {projectActivity,assertProjectIdle} from './project_lifecycle.mjs';
 const defaultRoot=path.dirname(fileURLToPath(import.meta.url));
 export function createEditorServer(root=defaultRoot,accessOptions={},dependencies={}){
-const access=createAccess(accessOptions);
+const deployment=dependencies.deployment??deploymentSettings();
+const access=deployment.studio?createStudioAccess(deployment):createAccess(accessOptions);
 const projects=dependencies.projects??new LocalProjects(root);
 const objects=new LocalObjectAssets(projects);
-const effects=new LocalEffectRenderer(root,{projects,runtime:dependencies.effectRuntime});
+const credentials=dependencies.personalCredentials??new PersonalCredentials();
+const effects=deployment.personalEffectsEnabled?new PersonalEffects(root,{projects,credentials,runtimeFactory:dependencies.personalRuntimeFactory}):new LocalEffectRenderer(root,{projects,runtime:dependencies.effectRuntime});
 const generations=new ObjectGenerations(root,{projects,assets:objects,runtime:dependencies.objectRuntime});
 const activity=projectActivity();
 const allowed=new Set(['local_demo.html','local_demo.mjs','structure_editor.html','structure_editor.mjs','object_root_ensurer.mjs','restore_gate.mjs','object_state.mjs','placement.mjs','geometry.mjs','scene_state.mjs','structure_mesh.mjs','assets/demo/structure.json','assets/demo/structure.glb','assets/demo/point_preview.json','assets/demo/room.ply','assets/demo/furniture.glb']);
+for(const file of ['try_on.mjs','simple_gesture.mjs','comparison_view.mjs','consumer_editor.mjs','consumer.css','viewer_activity.mjs','deployment_ui.mjs','personal_effect_ui.mjs'])allowed.add(file);
 allowed.add('app.css');allowed.add('editor.css');allowed.add('assets/ui/room.png');
-allowed.add('editor_room.mjs');
+allowed.add('editor_room.mjs');allowed.add('uniform_scale.mjs');allowed.add('button_hints.mjs');allowed.add('app_orientation.mjs');
 allowed.add('wall_edit.mjs');
 allowed.add('editor_calibration.mjs');allowed.add('effect_history.mjs');
+for(const file of ['editor_persistence.mjs','editor_viewport.mjs','editor_ui.mjs','editor_capture.mjs'])allowed.add(file);
 allowed.add('scene_object_list.mjs');
 allowed.add('effect_ui.mjs');allowed.add('effect_ui.css');
 allowed.add('ui_actions.mjs');for(const file of ['ui_network.mjs','photo_draft_ui.mjs','local_drafts.mjs','object_submission.mjs','project_progress.mjs','photo_checks.mjs'])allowed.add(file);
 for(const file of ['object_photos.mjs','object_generation_ui.mjs','object_generation_ui.css'])allowed.add(file);
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.mjs':'text/javascript','.js':'text/javascript','.wasm':'application/wasm','.json':'application/json','.ply':'application/octet-stream','.glb':'model/gltf-binary'};
-const sceneFile=path.join(root,'scene/user_placement.json');
+const sceneDir=deployment.studio?path.join(path.dirname(projects.base),'scene'):path.join(root,'scene'),sceneFile=path.join(sceneDir,'user_placement.json');
 return http.createServer(async(req,res)=>{
  res.setHeader('Content-Security-Policy',"connect-src 'self' blob:");
  const port=req.socket.localPort;
@@ -42,8 +51,13 @@ return http.createServer(async(req,res)=>{
  try{
   const url=new URL(req.url,'http://localhost'),rel=url.pathname==='/'?'local_demo.html':decodeURIComponent(url.pathname).slice(1);
   if(await access.handle(req,res,url))return;
+  if(url.pathname==='/healthz'&&['GET','HEAD'].includes(req.method)){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(req.method==='HEAD'?undefined:JSON.stringify({ok:true,deployment:deployment.studio?'modelscope':'local'}));return;}
+  if(url.pathname==='/api/capabilities'&&req.method==='GET'){
+   const showcase=await showcaseAvailable(root);let exampleAvailable=showcase;try{await fs.access(path.join(root,'assets/demo/room.ply'));exampleAvailable=true;}catch{}
+   res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify({deployment:deployment.studio?'modelscope':'local',sharedDemo:deployment.studio,effectsEnabled:deployment.effectsEnabled,personalEffectsEnabled:!!deployment.personalEffectsEnabled,showcaseAvailable:showcase,exampleAvailable}));return;
+  }
   const projectMatch=url.pathname.match(/^\/api\/projects\/([a-f0-9-]{36})(?:\/|$)/),restoreMatch=url.pathname.match(/^\/api\/deleted-projects\/([a-f0-9-]{36})\/restore$/);
-  if(projectMatch){if(req.method==='DELETE'&&url.pathname==='/api/projects/'+projectMatch[1]||req.method==='POST'&&url.pathname==='/api/projects/'+projectMatch[1]+'/room-photo')releaseTransition=activity.transition(projectMatch[1]);else{lease(projectMatch[1]);await projects.load(projectMatch[1]);}}
+  if(projectMatch){if(req.method==='DELETE'&&url.pathname==='/api/projects/'+projectMatch[1]||req.method==='POST'&&['room-photo','remove'].some(action=>url.pathname==='/api/projects/'+projectMatch[1]+'/'+action))releaseTransition=activity.transition(projectMatch[1]);else{lease(projectMatch[1]);await projects.load(projectMatch[1]);}}
   if(restoreMatch&&req.method==='POST')releaseTransition=activity.transition(restoreMatch[1]);
   if(url.pathname==='/api/effect-renders'&&req.method==='GET'){const id=url.searchParams.get('project');lease(id);await projects.load(id);}
   const renderMatch=url.pathname.match(/^\/api\/effect-renders\/([a-f0-9]{64})(?:\/|$)/);
@@ -52,19 +66,22 @@ return http.createServer(async(req,res)=>{
   const send=value=>{res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(value));};
   if(url.pathname==='/api/deleted-projects'&&req.method==='GET'){send(await projects.deleted());return;}
   if(restoreMatch&&req.method==='POST'){await json();send(await projects.restore(restoreMatch[1]));return;}
-  if(await handleEffectRoutes(req,res,url,effects,()=>json(8_000_000)))return;
+  if(url.pathname==='/api/personal-inference/session'&&deployment.personalEffectsEnabled){if(req.method==='GET'){send(credentials.status(credentials.id(req)));return;}if(req.method==='POST'){const body=await json(1024);send(credentials.set(req,res,body.token,{secure:deployment.studio}));return;}}
+  if(url.pathname==='/api/personal-inference/session/clear'&&req.method==='POST'&&deployment.personalEffectsEnabled){await json(1024);send(credentials.clear(req,res,{secure:deployment.studio}));return;}
+  if(await handleEffectRoutes(req,res,url,effects,()=>json(8_000_000),{enabled:!!(deployment.effectsEnabled||deployment.personalEffectsEnabled),context:{sessionId:credentials.id(req)}}))return;
   if(await handleObjectGenerationRoutes(req,res,url,generations,json))return;
-  if(rel==='api/doctor'&&req.method==='GET'){send(await projects.doctor());return;}
+  if(rel==='api/doctor'&&req.method==='GET'){send({...await projects.doctor(),deployment:deployment.studio?'modelscope':'local',effectsEnabled:deployment.effectsEnabled,...(deployment.studio?{storage:'persistent/projects'}:{})});return;}
   if(rel==='api/projects'){
    if(req.method==='GET'){send(await projects.list());return;}
    if(req.method==='POST'){send(projects.public(await projects.create(await json())));return;}
   }
   if(rel==='api/example'&&req.method==='POST'){await json();send(await projects.example());return;}
-  const route=rel.match(/^api\/projects\/([a-f0-9-]{36})(?:\/(uploads|room-photo|details|visit|start|extract|recover|scene|assets|objects|reference)(?:\/([a-zA-Z0-9_.-]+))?)?$/);
+  const route=rel.match(/^api\/projects\/([a-f0-9-]{36})(?:\/(uploads|room-photo|details|visit|start|extract|recover|scene|assets|objects|reference|remove)(?:\/([a-zA-Z0-9_.-]+))?)?$/);
   if(route){const [,id,action,asset]=route;
    if(action==='visit'&&!asset&&req.method==='POST'){await json();send(await projects.visit(id));return;}
    if(action==='details'&&!asset&&req.method==='POST'){send(await projects.updateDraft(id,await json()));return;}
    if(!action&&req.method==='DELETE'){await assertProjectIdle(id,{projects,generations,effects});send(await projects.remove(id));return;}
+   if(action==='remove'&&!asset&&req.method==='POST'){await json();await assertProjectIdle(id,{projects,generations,effects});send(await projects.remove(id));return;}
    if(!action&&req.method==='GET'){send(projects.public(await projects.load(id)));return;}
    if(action==='reference'&&!asset&&['GET','HEAD'].includes(req.method)){
     const p=await projects.load(id),image=p.uploads.find(u=>u.kind==='image');
@@ -98,7 +115,7 @@ return http.createServer(async(req,res)=>{
     await fs.mkdir(path.dirname(sceneFile),{recursive:true});
     try{await fs.copyFile(sceneFile,sceneFile+'.bak');}catch(e){if(e.code!=='ENOENT')throw e;}
     await fs.writeFile(sceneFile+'.tmp',JSON.stringify(scene,null,2));await fs.rename(sceneFile+'.tmp',sceneFile);
-    await fs.writeFile(path.join(root,'scene/user_structure.glb'),structureGlb(scene.structure,{floorOnly:true}));res.end(JSON.stringify({ok:true,savedAt:scene.savedAt}));return;
+    await fs.writeFile(path.join(sceneDir,'user_structure.glb'),structureGlb(scene.structure,{floorOnly:true}));res.end(JSON.stringify({ok:true,savedAt:scene.savedAt}));return;
    }
   }
   const dependency=/^node_modules\/(three\/(build\/three\.(module|core)\.js|examples\/jsm\/[a-zA-Z0-9_./-]+\.js)|@sparkjsdev\/spark\/dist\/[a-zA-Z0-9_./-]+\.(js|wasm))$/.test(rel)&&!rel.split('/').includes('..');
@@ -109,9 +126,9 @@ return http.createServer(async(req,res)=>{
 });
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
- await installNetworkAudit(defaultRoot);const port=Number(process.env.PORT??8787),lan=process.argv.includes('--lan'),runtime=new EffectRuntime(defaultRoot);
+ const deployment=deploymentSettings();await fs.mkdir(dataDirectory(defaultRoot),{recursive:true});await installNetworkAudit(defaultRoot);const port=Number(process.env.PORT??(deployment.studio?7860:8787)),lan=process.argv.includes('--lan'),runtime=new EffectRuntime(defaultRoot);
  const server=createEditorServer(defaultRoot,{lan},{effectRuntime:runtime});let checking=false,fluxReady=false,fluxMessage='';
  const keepFluxReady=async()=>{if(checking)return;checking=true;try{if(fluxReady&&await runtime.health())return;await runtime.ensure();fluxReady=true;if(fluxMessage!=='ready')console.log('Local Flux service ready');fluxMessage='ready';}catch(e){fluxReady=false;if(fluxMessage!==e.message)console.error('Local Flux startup: '+e.message);fluxMessage=e.message;}finally{checking=false;}};
- server.listen(port,lan?'0.0.0.0':'127.0.0.1',()=>{console.log(`Placement editor: http://127.0.0.1:${port}`);if(lan){console.log(`Phone pairing (open on this computer): http://127.0.0.1:${port}/phone`);for(const ip of privateIPv4s())console.log(`Same Wi-Fi: http://${ip}:${port}/`);}keepFluxReady();});
- const fluxWatch=setInterval(()=>keepFluxReady(),60000);fluxWatch.unref();server.on('close',()=>clearInterval(fluxWatch));
+ server.listen(port,lan||deployment.studio?'0.0.0.0':'127.0.0.1',()=>{console.log(`Placement editor: http://127.0.0.1:${port} (${deployment.studio?'ModelScope shared demo':'local'})`);if(lan&&!deployment.studio){console.log(`Phone pairing (open on this computer): http://127.0.0.1:${port}/phone`);for(const ip of privateIPv4s())console.log(`Same Wi-Fi: http://${ip}:${port}/`);}if(deployment.effectsEnabled)keepFluxReady();});
+ if(deployment.effectsEnabled){const fluxWatch=setInterval(()=>keepFluxReady(),60000);fluxWatch.unref();server.on('close',()=>clearInterval(fluxWatch));}
 }

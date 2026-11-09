@@ -1,0 +1,52 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {createEditorServer} from '../structure_server.mjs';
+import {LocalProjects} from '../local_projects.mjs';
+import {LocalEffectRenderer} from '../effect_render.mjs';
+import {deploymentSettings,dataDirectory} from '../runtime_config.mjs';
+
+test('studio requires an explicit public origin and disables GPU effects by default',()=>{
+ assert.throws(()=>deploymentSettings({AHOLO_DEPLOYMENT:'modelscope'}),/PUBLIC_ORIGIN/);
+ for(const value of ['https://user:pass@example.com','https://example.com/path','null'])assert.throws(()=>deploymentSettings({AHOLO_DEPLOYMENT:'modelscope',AHOLO_PUBLIC_ORIGIN:value}));
+ const config=deploymentSettings({AHOLO_DEPLOYMENT:'modelscope',AHOLO_PUBLIC_ORIGIN:'https://demo.ms.show'});assert.equal(config.effectsEnabled,false);assert.deepEqual(config.origins,['https://demo.ms.show']);
+ assert.equal(deploymentSettings({}).effectsEnabled,true);assert.equal(dataDirectory('/app',{}),path.join('/app','local-data'));
+ assert.deepEqual(deploymentSettings({AHOLO_TRUSTED_PROXY_ADDRESSES:'21.0.0.1'}).proxyPeers,['21.0.0.1']);assert.throws(()=>deploymentSettings({AHOLO_TRUSTED_PROXY_ADDRESSES:'21.0.0.0/8'}),/精确 IP/);
+});
+test('shared studio supports HTTPS origins, persists outside code, blocks cross-site writes and avoids Flux',async t=>{
+ const root=await fs.mkdtemp(path.join(os.tmpdir(),'aholo-studio-')),code=path.join(root,'code'),data=path.join(root,'persistent');await fs.mkdir(code);
+ t.after(async()=>{assert.equal(path.dirname(path.resolve(root)),path.resolve(os.tmpdir()));assert.ok(path.basename(root).startsWith('aholo-studio-'));await fs.rm(root,{recursive:true,force:true});});
+ const projects=new LocalProjects(code,{dataDir:data}),deployment={studio:true,origins:['https://demo.ms.show'],effectsEnabled:false};
+ const server=createEditorServer(code,{}, {projects,deployment,effectRuntime:{generate(){throw Error('must not run Flux');}}});await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ t.after(()=>new Promise(r=>server.close(r)));const base='http://127.0.0.1:'+server.address().port;
+ const create=(origin)=>fetch(base+'/api/projects',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({name:'Shared cloud demo'})});
+ assert.equal((await fetch(base+'/healthz')).status,200);const cap=await fetch(base+'/api/capabilities').then(r=>r.json());assert.equal(cap.sharedDemo,true);assert.equal(cap.effectsEnabled,false);assert.equal(cap.exampleAvailable,false);
+ for(const origin of ['null','https://attacker.example'])assert.equal((await create(origin)).status,403);
+ const response=await create('https://demo.ms.show');assert.equal(response.status,200);const p=await response.json();
+ const restarted=new LocalProjects(path.join(root,'new-image'),{dataDir:data});assert.equal((await restarted.load(p.id)).name,'Shared cloud demo');assert.equal((await restarted.list()).length,1);
+ assert.equal((await fs.readdir(code)).length,0);const effects=new LocalEffectRenderer(code,{projects});assert.equal(effects.base,path.join(data,'effect-renders'));
+ const disabled=await fetch(base+'/api/effect-renders',{method:'POST',headers:{Origin:'https://demo.ms.show','Content-Type':'application/json'},body:'{}'});assert.equal(disabled.status,503);
+ const phone=await fetch(base+'/phone',{redirect:'manual'});assert.equal(phone.status,200);const page=await phone.text();assert.match(page,/https:\/\/demo\.ms\.show\//);assert.match(page,/无需配对码/);assert.match(page,/尚未提交的照片草稿不会自动转移/);assert.doesNotMatch(page,/value="http:\/\/127\.0\.0\.1/);
+ const qr=await fetch(base+'/phone-qr.svg');assert.equal(qr.status,200);assert.equal(qr.headers.get('content-type'),'image/svg+xml');assert.match(await qr.text(),/<svg/);const qrHead=await fetch(base+'/phone-qr.svg',{method:'HEAD'});assert.equal(qrHead.status,200);assert.equal((await qrHead.text()).length,0);
+ assert.equal((await fetch(base+'/pair',{redirect:'manual'})).status,303);
+ const remove=()=>fetch(base+'/api/projects/'+p.id+'/remove',{method:'POST',headers:{Origin:'https://demo.ms.show','Content-Type':'application/json'},body:'{}'});
+ projects.busy.add(p.id);assert.equal((await remove()).status,409);projects.busy.delete(p.id);assert.equal((await remove()).status,200);assert.equal((await projects.list()).length,0);
+ assert.equal((await fetch(base+'/api/deleted-projects/'+p.id+'/restore',{method:'POST',headers:{Origin:'https://demo.ms.show','Content-Type':'application/json'},body:'{}'})).status,200);assert.equal((await projects.list()).length,1);
+});
+test('studio proxy handles configured forwarded host but rejects arbitrary hosts and bursts',async()=>{
+ const {createStudioAccess}=await import('../studio_access.mjs');let code,body,headers={},time=100;const res={setHeader:(k,v)=>headers[k]=v,writeHead:(status,h)=>{code=status;Object.assign(headers,h);},end:v=>body=v};
+ const access=createStudioAccess({origins:['https://demo.ms.show'],startsPerMinute:1,now:()=>time});
+ const req={method:'POST',headers:{host:'container:7860','x-forwarded-host':'demo.ms.show',origin:'https://demo.ms.show'},socket:{localPort:7860,remoteAddress:'172.18.0.2'}};
+ const url=new URL('https://demo.ms.show/api/projects/11111111-1111-4111-8111-111111111111/start');
+ assert.equal(await access.handle(req,res,url),false);assert.equal(await access.handle(req,res,url),true);assert.equal(code,429);assert.match(body,/已提交任务/);
+ time+=61000;assert.equal(await access.handle(req,res,url),false);
+ time+=61000;req.socket.remoteAddress='::ffff:172.18.0.2';assert.equal(await access.handle(req,res,url),false);
+ req.headers['x-forwarded-host']='evil.example';assert.equal(await access.handle(req,res,url),true);assert.equal(code,403);
+ time+=61000;req.socket={localPort:7860,remoteAddress:'21.0.0.1',localAddress:'::ffff:21.0.22.175'};req.headers.host='21.0.22.175:7860';delete req.headers['x-forwarded-host'];assert.equal(await access.handle(req,res,url),false);
+ req.headers.host='21.0.22.176:7860';assert.equal(await access.handle(req,res,url),true);assert.equal(code,403);
+ req.headers.host='21.0.22.175:7860';req.headers.origin='https://attacker.example';assert.equal(await access.handle(req,res,url),true);assert.equal(code,403);
+ const fc=createStudioAccess({origins:['https://demo.ms.show'],proxyPeers:['21.0.0.1']});req.headers={host:'studio-test.cn-beijing-vpc.fcapp.run','x-forwarded-host':'demo.ms.show',origin:'https://demo.ms.show'};assert.equal(await fc.handle(req,res,url),false);
+ req.socket.remoteAddress='21.0.0.2';assert.equal(await fc.handle(req,res,url),true);assert.equal(code,403);
+});

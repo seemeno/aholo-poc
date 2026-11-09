@@ -1,7 +1,7 @@
 """Run only the local demo's media/geometry scripts with Python network/process access denied."""
 import sys, runpy
 from pathlib import Path
-allowed={'local_geometry.py','media_check.py','runtime_check.py'}
+allowed={'local_geometry.py','media_check.py','runtime_check.py','normalize_effect_image.py'}
 root=Path(__file__).resolve().parent
 sys.path.insert(0,str(root/'.local-python'))
 target=Path(sys.argv[1]).resolve()

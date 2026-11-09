@@ -1,0 +1,15 @@
+[
+  {"id":0,"start":0.25,"end":3.05,"speaker":"A","text":"我想买把这样的椅子，放窗边。"},
+  {"id":1,"start":3.15,"end":5.55,"speaker":"B","text":"单看挺好看，放咱家搭吗？"},
+  {"id":2,"start":5.65,"end":9.05,"speaker":"A","text":"衣服都能试穿，家具也得先试摆呀。"},
+  {"id":3,"start":9.15,"end":9.95,"speaker":"B","text":"那试试！"},
+  {"id":4,"start":10.15,"end":12.75,"speaker":"A","text":"先拍张房间照片。"},
+  {"id":5,"start":13.0,"end":15.75,"speaker":"B","text":"再把椅子图片传上去。"},
+  {"id":6,"start":16.15,"end":17.85,"speaker":"B","text":"往窗边挪一点？"},
+  {"id":7,"start":18.0,"end":18.8,"speaker":"A","text":"这样？"},
+  {"id":8,"start":19.0,"end":20.65,"speaker":"B","text":"对，就这里！"},
+  {"id":9,"start":21.2,"end":23.05,"speaker":"A","text":"看看真实效果。"},
+  {"id":10,"start":23.6,"end":25.45,"speaker":"B","text":"嗯，这样就搭了！"},
+  {"id":11,"start":26.15,"end":27.85,"speaker":"A","text":"买衣服，先试穿。"},
+  {"id":12,"start":28.0,"end":29.8,"speaker":"B","text":"买家具，先试摆。"}
+]

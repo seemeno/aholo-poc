@@ -1,153 +1,3012 @@
-.editor-app{height:100dvh;overflow:hidden}.editor-header{height:84px;display:flex;align-items:center;padding:12px 28px;gap:14px;border-bottom:1px solid var(--line)}.editor-heading{flex:1;min-width:0}.editor-heading small{display:block;font-size:10px;color:var(--muted);letter-spacing:1px}.editor-heading h1{font-size:21px;margin:4px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.badge{border-radius:24px;background:#e9efdf;color:#6c7e61;padding:7px 12px;font-size:11px;white-space:nowrap}#editorMain{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:minmax(0,1fr);height:calc(100dvh - 84px);padding:24px 28px;gap:26px;max-width:1800px;margin:auto;overflow:hidden}#stage{grid-column:1;grid-row:1;position:relative;min-width:0;min-height:0;overflow:hidden;border-radius:22px;background:#dce2d8}#editorPanel{grid-column:2;grid-row:1;min-height:0;min-width:0;overflow-y:auto;overscroll-behavior:contain;padding:0 4px 18px;scrollbar-width:thin}#editorMain.compact{grid-template-columns:minmax(0,1fr)}#editorMain.compact #editorPanel{display:none}#plan,#three{position:absolute;inset:0;width:100%;height:100%;touch-action:none}#three{display:none}canvas{display:block;width:100%;height:100%;touch-action:none}#toolbar{position:absolute;top:16px;left:16px;right:16px;z-index:3;display:flex;gap:5px;align-items:center;pointer-events:none}#toolbar>button{pointer-events:auto;border:0;border-radius:24px;background:#ffffffed;min-height:42px;padding:9px 17px;font-size:12px;box-shadow:0 2px 8px #283e2410}#toolbar>.primary{background:var(--green);color:#fff}#toolbar #moreButton{margin-left:auto}#panelToggle{display:none}.sheet-heading{position:relative;padding:0 0 16px}.sheet-heading>h2{font-size:21px;margin:5px 0 0}.sheet-grip,#closePanel{display:none}#desktopPanelNav{position:sticky;top:0;z-index:4;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;padding:0 0 14px;margin-bottom:18px;background:var(--cream)}#desktopPanelNav button{padding:7px 3px;font-size:11px;min-width:0;border:0;background:transparent}#desktopPanelNav button[aria-pressed=true]{background:#e5ecdd;color:var(--green)}#desktopPanelNav .primary{background:var(--green);color:white}#editorPanel section{margin-bottom:20px}#editorPanel h2{font-size:15px;margin:8px 0 13px;color:var(--ink)}#editorPanel label{display:block;font-size:11px;color:var(--muted);margin:9px 0}#editorPanel input,#editorPanel select{margin-top:5px}#editorPanel input[type=number]{width:100%;min-width:0}#editorPanel .row{gap:8px}#editorPanel .row>label{flex:1;min-width:75px}#editorPanel .row>button{flex:1;font-size:12px;white-space:nowrap}#editorPanel input[type=checkbox]{margin:0;min-height:0}#editorPanel #objectName{width:100%}.note{font-size:11px;line-height:1.8;color:var(--muted);margin:12px 0}#objectCount{font-size:10px;color:var(--muted);float:right}.object-section>.row{margin:12px 0}#addBuiltin,#uploadObject{min-height:50px;border-radius:12px}#uploadObject{border-style:dashed}.rotation-buttons{flex:1}.rotation-buttons button{min-width:75px}#apply{width:100%;margin-top:10px}.object-section{border-bottom:1px solid var(--line);padding-bottom:15px}#compareTools>.row{display:grid;grid-template-columns:1fr 1fr;margin:18px 0}#exportComparison{width:100%;margin-bottom:12px}#moreTools>details{padding-bottom:10px}#floorform{display:grid;grid-template-columns:1fr 1fr;gap:8px}#floorform input{width:100%}#status{position:absolute;bottom:16px;left:16px;right:16px;z-index:2;background:#f7f8f1ed;border-radius:12px;padding:11px 14px;font-size:11px;line-height:1.65;max-height:95px;overflow:auto;pointer-events:none}#presentation{position:absolute;top:74px;left:16px;pointer-events:none}#viewLabel{display:inline-block;font-size:10px;background:#ffffffdc;border-radius:20px;padding:6px 10px;color:#5f7457}#drawActions{position:absolute;z-index:5;top:112px;left:16px;display:flex;gap:8px}#drawActions button{border-color:var(--green);font-weight:600}#mobileActions{display:none}#error{font-size:12px;color:#a34435;overflow-wrap:anywhere}#saveDialog{max-width:430px;width:calc(100% - 32px);border:1px solid var(--line);border-radius:24px;padding:28px;background:var(--cream);color:var(--ink);text-align:center}#saveDialog::backdrop{background:#12291e77;backdrop-filter:blur(4px)}.save-check{width:48px;height:48px;border-radius:50%;background:#e4ecdc;color:var(--green);display:grid;place-items:center;margin:0 auto 15px;font-size:24px}#saveDialog h2{font-size:23px;margin-bottom:10px}#saveDialog p{font-size:12px;color:var(--muted)}#saveDialog .primary{width:100%;margin-top:22px}#saveDialog .text-button{margin-top:8px}#cloudPrevious{margin-top:8px}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){.editor-header{height:68px;padding:8px 12px;gap:7px}.editor-header .back{width:30px}.editor-heading small{font-size:9px;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.editor-heading h1{font-size:16px;margin-top:2px}.editor-header .connection-link{font-size:10px;white-space:nowrap}.editor-header .badge{display:none}#editorMain,#editorMain.compact{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(160px,1fr) min(47dvh,410px);height:calc(100dvh - 140px - env(safe-area-inset-bottom));padding:0;gap:0;width:100%}#editorMain.compact{grid-template-rows:minmax(0,1fr)}#stage{grid-column:1;grid-row:1;border-radius:0;min-height:0}#editorPanel{grid-column:1;grid-row:2;position:relative;background:var(--cream);border:1px solid #dce3d3;border-bottom:0;border-radius:22px 22px 0 0;box-shadow:0 -5px 20px #16382710;padding:0 18px 18px;z-index:5}#editorMain.compact #editorPanel{display:none}.sheet-heading{position:sticky;top:0;background:var(--cream);z-index:5;padding:12px 40px 8px 0}.sheet-heading>h2,#editorPanel .sheet-heading>h2{font-size:17px;margin:6px 0}.sheet-grip{display:block;position:absolute;width:32px;height:4px;background:#ced7c6;border-radius:4px;top:7px;left:calc(50% - 16px)}#closePanel{display:block;position:absolute;right:0;top:10px;width:40px;height:40px;min-height:40px;background:none;border:0;padding:0;font-size:24px}#desktopPanelNav{display:none}#toolbar{top:12px;left:12px;right:12px;gap:4px}#toolbar>button{min-height:44px;font-size:11px;padding:8px 12px}#toolbar #panelToggle{display:none}#toolbar #moreButton{font-size:11px}#presentation{top:65px;left:12px}#viewLabel{font-size:9px;padding:5px 8px}#status{left:12px;right:12px;bottom:12px;font-size:10px;line-height:1.5;max-height:65px;padding:9px 11px}#drawActions{top:100px;left:12px}#drawActions button{font-size:12px}#mobileActions{position:fixed;z-index:9;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));height:calc(72px + env(safe-area-inset-bottom));padding:6px 10px calc(6px + env(safe-area-inset-bottom));gap:5px;border-top:1px solid var(--line);background:var(--cream)}#mobileActions button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;background:none;border-radius:12px;font-size:10px;min-width:0;padding:4px}#mobileActions button:before{display:block;font-size:23px;line-height:25px;color:inherit}#mobileObjects:before{content:'▤'}#mobilePlace:before{content:'✥'}#mobileActions button[aria-pressed=true]{background:#e8eedf;color:var(--green)}#editorMain.compact #mobileActions button{background:none;color:var(--muted)}#editorPanel .row>label{min-width:72px}#editorPanel button{min-height:44px}#editorPanel input,#editorPanel select,#editorPanel textarea{font-size:16px}#editorPanel section{margin-bottom:14px}#editorPanel .note{font-size:10px}.object-section>.row{margin:10px 0}#apply{position:sticky;bottom:0;z-index:2;box-shadow:0 -6px 10px var(--cream)}#saveDialog{max-height:80dvh;overflow:auto}}
-@media(max-height:520px) and (max-width:1100px){.editor-header{height:52px}#editorMain,#editorMain.compact{height:calc(100dvh - 112px - env(safe-area-inset-bottom));grid-template-columns:minmax(0,1fr) 280px;grid-template-rows:minmax(0,1fr)}#editorMain.compact{grid-template-columns:minmax(0,1fr)}#editorPanel{grid-column:2;grid-row:1;border-radius:0;padding:0 12px 12px}#mobileActions{height:calc(60px + env(safe-area-inset-bottom));padding-top:2px;padding-bottom:calc(2px + env(safe-area-inset-bottom))}#mobileActions button:before{font-size:20px;line-height:21px}#status{max-height:50px;font-size:9px}#presentation{display:none}#drawActions{top:64px}}
-@media(max-width:900px) and (min-height:521px){.editor-header{height:calc(68px + env(safe-area-inset-top));padding-top:calc(8px + env(safe-area-inset-top))}#editorMain,#editorMain.compact{height:calc(100dvh - 140px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}}
-#mobileActions{padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#mobileActions{grid-template-columns:repeat(3,minmax(0,1fr))}#mobileRender{color:var(--green);font-weight:650;background:#e8eedf!important}#mobileRender:before{content:'◩'}}
-#sceneActions{position:absolute;z-index:4;left:16px;right:16px;bottom:16px;display:grid;grid-template-columns:1.2fr 1fr 1fr .85fr;gap:5px;max-width:540px;margin:auto;background:#f7f8f1f5;border:1px solid #dce3d3;border-radius:16px;padding:7px;box-shadow:0 4px 20px #1c37211c}#sceneActions button{min-width:0;min-height:44px;white-space:nowrap;border:0;border-radius:10px;padding:8px 6px;font-size:12px;background:transparent;color:var(--ink)}#sceneActions #save,#sceneActions #moveObjectMode[aria-pressed=true]{background:var(--green);color:#fff}#sceneActions #beforeView[aria-pressed=true],#sceneActions #afterView[aria-pressed=true]{background:#e0e9d8;color:var(--green);font-weight:650}#status{bottom:90px;max-height:65px}#stage.moving canvas{cursor:grab}#stage.moving canvas:active{cursor:grabbing}#stage.moving{box-shadow:inset 0 0 0 2px #78a78c}#compareTools{margin-bottom:18px}#compareTools>summary{font-weight:600}#compareTools>.primary{margin-top:12px}#precisePlacement{margin-top:10px}#editorPanel #apply{position:static;box-shadow:none}.rotation-buttons{display:flex;gap:8px}.rotation-buttons>button{flex:1}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#sceneActions{left:10px;right:10px;bottom:10px;padding:5px;gap:2px;border-radius:14px}#sceneActions button{font-size:11px;padding:7px 3px}#status{bottom:78px;max-height:43px;font-size:10px;padding:8px 10px}#presentation{max-width:calc(100% - 24px)}#editorPanel .rotation-buttons{display:flex;gap:8px}}
-@media(max-width:900px) and (min-height:521px){#editorMain[data-panel-group=placement]:not(.compact){grid-template-rows:minmax(160px,1fr) min(36dvh,320px)}}
-@media(max-height:520px) and (max-width:1100px){#status{max-height:30px;bottom:73px;font-size:9px;padding:5px 8px}#sceneActions{bottom:8px}}
-/* One inspector for selection and editing; technical tools stay in advanced settings. */
-#desktopPanelNav{grid-template-columns:1fr 1fr}.editor-header{position:relative}#saveState{font-size:11px;color:var(--muted);max-width:200px}#saveState.error{color:#a34435}#objectSection{display:flex;flex-direction:column}#objectSection #addObject{order:-10;width:100%;margin-bottom:18px}#currentObjectDetails{padding-top:12px;border-top:1px solid var(--line);margin-top:12px}#currentObjectDetails>.row{display:flex}#assetDetails{order:10;margin-top:15px}#placementError{font-size:11px;padding:10px;border:1px solid #dfb7ad;border-radius:8px;line-height:1.8}#sceneActions{right:190px;max-width:540px;margin:0;grid-template-columns:1.2fr 1.2fr .8fr}#sceneActions #afterView{display:none}#beforeView[aria-pressed=true]{font-size:11px}.stage-effect{position:absolute;z-index:4;bottom:16px;right:16px;min-width:155px;min-height:60px}.add-methods{display:grid;gap:10px;margin-top:18px}.add-methods>button{text-align:left;padding:15px}.add-methods small{display:block;font-size:11px;color:var(--muted);margin-top:6px;line-height:1.7}.load-error{position:fixed;z-index:50;top:110px;left:50%;transform:translateX(-50%);width:min(520px,calc(100% - 32px));background:var(--cream);border:1px solid #d5b7a8;padding:24px;border-radius:16px}.load-error p{font-size:13px}.load-error>a{margin-left:18px;font-size:12px}.asset-error{position:absolute;top:115px;left:16px;right:16px;z-index:4;display:flex;align-items:center;gap:12px;background:#fff2df;border:1px solid #ddc6a5;padding:9px 12px;border-radius:10px;font-size:11px}.asset-error span{flex:1}.asset-error button{min-height:36px;font-size:11px}#editorPanel .editor-object-generation{border:0;padding:0;margin:0}#editorPanel .object-generation-intro{display:none}#cameraA{max-width:145px}#editorMain[data-panel-group=objects] #placementSection{border-top:1px solid var(--line);padding-top:12px}#coverageTools{margin-top:16px}#editorPanel #compareTools{border-top:1px solid var(--line);padding-top:15px}
-@media(max-width:1250px){.editor-header .badge{display:none}#editorMain{gap:18px;padding:20px}.stage-effect{min-width:130px}#sceneActions{right:160px}#toolbar>button{padding:8px 12px}}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#editorMain,#editorMain.compact{padding:0;gap:0}.stage-effect{display:none}#sceneActions{left:10px;right:10px;margin:auto;max-width:540px}#saveState{max-width:112px;font-size:9px;overflow-wrap:anywhere}.editor-heading small{display:none}.editor-header>.app-help{font-size:10px}#toolbar>button{padding:8px 10px}.asset-error{top:98px;left:12px;right:12px;font-size:10px;padding:8px}#editorPanel #addObject{min-height:46px;margin-top:8px;margin-bottom:15px}.load-error{top:85px}.editor-flow{display:none}#currentObjectDetails>.row>button{font-size:11px}#mobilePlace:before{content:'↔'}#mobileActions button{font-size:10px}}
-
-/* Keep selected-object edits first and undo reachable without opening a panel. */
-#objectSection{border-bottom:0}#editorPanel #currentObjectDetails{margin-top:0;padding-top:0;border:0}#editorPanel #placementSection{border:0!important;padding-top:0!important;margin:0 0 12px}#placementSection>.note{margin:6px 0;font-size:10px}#editorPanel .editor-object-generation{order:20;margin-top:18px}#assetDetails{order:10}#sceneActions{grid-template-columns:1.25fr 1.25fr .8fr .8fr}#sceneActions button:disabled{opacity:.38}#sceneActions #undo,#sceneActions #redo{border-left:1px solid var(--line);border-radius:0}#editorPanel #addObject{margin-bottom:10px}.save-retry{color:#a34435;background:#fff1e5;border-color:#dfb7ad;min-height:36px;padding:5px 10px;font-size:11px;white-space:nowrap}#editorPanel #saveNow{margin:12px 0}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#sceneActions{grid-template-columns:1.25fr 1.25fr .8fr .8fr}#saveState{max-width:85px}.save-retry{font-size:10px;padding:5px 7px}.editor-header{gap:8px}#editorPanel #addObject{margin-bottom:10px}}
-
-#editorPanel #objectName{min-height:42px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:13px;background:#fff}#desktopPanelNav{margin-bottom:10px}#objectSection>h2{margin-top:0}@media(min-width:901px) and (min-height:521px){#editorPanel>.sheet-heading{display:none}}
-
-.save-recovery{position:fixed;z-index:45;top:88px;right:24px;width:min(430px,calc(100% - 24px));padding:20px;background:#fff4df;border:1px solid #dec8a4;border-radius:16px;box-shadow:0 8px 30px #17312125}.save-recovery h2{font-size:17px;margin:0 30px 12px 0}.save-recovery p{font-size:12px;line-height:1.8}.recovery-actions{display:flex;flex-wrap:wrap;gap:8px}.recovery-actions button,.recovery-actions a{min-height:44px;font-size:12px}.recovery-actions a{display:flex;align-items:center;color:var(--green);text-decoration:underline}#closeRecovery{position:absolute;right:8px;top:6px;background:transparent;border:0;font-size:23px}#localBackup{min-height:36px;font-size:11px;padding:5px 8px}.load-error a{display:inline-flex;align-items:center;min-height:44px}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#mobileActions{grid-template-columns:repeat(2,minmax(0,1fr))}.save-recovery{top:76px;right:12px;padding:16px}#localBackup{max-width:45px;font-size:10px;padding:3px}.editor-header{gap:6px}#saveState{max-width:72px}}
-
-#editorPanel #currentObjectDetails,#editorPanel #placementSection,#editorPanel #objectSection,#editorPanel #fileTools{scroll-margin-top:70px}
-/* Direct manipulation: one stage, selection badge and a compact icon dock. */
-#toolbar{left:12px;right:12px;top:12px;gap:4px;justify-content:flex-start}
-#toolbar>button{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;min-height:44px;padding:0!important;font-size:23px;border-radius:14px}
-#toolbar #view3d{font-size:14px;font-weight:700}#toolbar #moreButton{margin-left:auto}
-#toolbar #generateEffect{position:static;min-width:44px;background:var(--green);color:white;display:inline-flex}
-#toolbar button:disabled{opacity:.4}#presentation{display:none}
-#toolbar #panelToggle{display:none!important}
-#editorPanel>.sheet-heading{display:block!important;position:sticky;top:0;background:var(--cream);padding:10px 40px 10px 0;z-index:5}#editorPanel .sheet-heading h2{font-size:16px;margin:0}#closePanel{display:block;position:absolute;right:0;top:0;width:40px;height:40px;min-height:40px;padding:0;border:0;background:none;font-size:24px}
-#selectionState{position:absolute;z-index:3;top:66px;left:12px;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:20px;background:#f7f8f1ed;color:var(--green);font-size:12px;padding:7px 12px;pointer-events:none}
-#selectionState[data-selection=object]{background:#285f4f;color:#fff}
-#transformTools{position:absolute;z-index:4;left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));max-width:470px;margin:auto;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));padding:5px;background:#f7f8f1f5;border:1px solid #dce3d3;border-radius:17px;box-shadow:0 4px 18px #16382722}
-#transformTools>button,#transformTools #sceneActions>button{min-width:0;min-height:46px;height:46px;border:0;border-radius:11px;padding:0;background:transparent;font-size:25px;color:var(--ink)}
-#transformTools button[aria-pressed=true]{background:var(--green);color:#fff}#transformTools button:disabled{opacity:.28}
-#transformTools #sceneActions{display:contents;position:static;margin:0;padding:0;border:0;box-shadow:none;background:none}
-#transformTools #sceneActions #undo,#transformTools #sceneActions #redo{border:0;border-radius:11px}
-#transformTools #sceneActions #beforeView[aria-pressed=true]{font-size:25px;background:var(--green);color:#fff}
-#status{bottom:78px;left:12px;right:12px;font-size:11px;max-height:48px;pointer-events:none}
-#mobileActions,#moveObjectMode{display:none!important}
-#roomBoundaryNote{display:block;margin-top:6px;font-size:11px;line-height:1.7}
-.view-expanded #editorMain{position:fixed;inset:0;z-index:60;width:100%;max-width:none;height:100dvh!important;padding:0;gap:0;grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
-.view-expanded #stage,#stage:fullscreen{border-radius:0;width:100%;height:100%;background:#dce2d8}
-#stage:fullscreen #toolbar{padding-top:env(safe-area-inset-top)}
-.view-expanded #editorPanel{position:absolute;z-index:8;right:0;top:0;bottom:0;width:min(340px,85vw);background:var(--cream);padding:12px 16px;border-radius:0;box-shadow:-8px 0 30px #16382722}
-.view-expanded #editorMain.compact #editorPanel{display:none}.view-expanded #closePanel{display:block}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){
- #editorMain,#editorMain.compact{height:calc(100dvh - 68px - env(safe-area-inset-top))}
- #toolbar>button{font-size:23px;min-height:44px;padding:0}#toolbar #moreButton{font-size:23px}
- #editorMain:not(.compact){grid-template-rows:minmax(140px,1fr) min(50dvh,440px)}
- #editorMain.compact{grid-template-rows:minmax(0,1fr)}
- #status{font-size:10px;bottom:76px;max-height:42px}#selectionState{font-size:11px}
+/* Editor components, responsive layout and app orientation. */
+.editor-app {
+  height: var(--app-height,100dvh);
+  overflow: hidden;
 }
-@media(max-height:520px) and (max-width:1100px){
- .editor-header{height:48px}#editorMain,#editorMain.compact{height:calc(100dvh - 48px)}
- #editorMain:not(.compact){grid-template-columns:minmax(0,1fr) 280px;grid-template-rows:minmax(0,1fr)}
- #editorMain.compact{grid-template-columns:minmax(0,1fr)}#status{left:auto;width:min(330px,45%);right:12px;bottom:76px;max-height:32px}
- #selectionState{top:64px}.view-expanded #editorMain:not(.compact){grid-template-columns:minmax(0,1fr)}
-}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#localBackup{max-width:none;min-width:54px;white-space:nowrap}.editor-header>.app-help:not([open]){width:32px}.editor-header>.app-help>summary{font-size:0;gap:0;justify-content:flex-end}.editor-header>.app-help>summary:after{content:'⋯';font-size:22px}.editor-header>.app-help[open]{width:210px}}
 
-/* Project actions above, direct manipulation below, scene contents at the right. */
-#toolbar #stageProjectActions{display:flex;gap:4px;margin-left:auto;pointer-events:auto;align-items:center}
-#stageProjectActions>button{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;min-height:44px;padding:0!important;border:0;border-radius:14px;font-size:23px;background:#ffffffed;box-shadow:0 2px 8px #283e2410;color:var(--ink)}
-#stageProjectActions #moreButton{margin-left:0;font-size:23px}#stageProjectActions #generateEffect{background:var(--green);color:white}
-#stageProjectActions #save{position:relative;font-size:22px}#stageProjectActions #save svg{width:23px;height:23px}#stageProjectActions #save:disabled{opacity:.65}
-.save-indicator{position:absolute;width:7px;height:7px;right:5px;bottom:5px;border-radius:50%;background:#9aa99f}
-#save[data-state=saved] .save-indicator{background:#347e59}#save[data-state=error] .save-indicator{background:#b34838}#save[data-state=saving] .save-indicator{background:#c79a37;animation:save-pulse .8s infinite alternate}
-@keyframes save-pulse{to{opacity:.25}}@media(prefers-reduced-motion:reduce){#save[data-state=saving] .save-indicator{animation:none}}
-#stage>#saveState{position:absolute;right:12px;top:64px;z-index:3;max-width:130px;font-size:10px;color:var(--green);background:#f7f8f1ed;padding:5px 8px;border-radius:12px;pointer-events:none;text-align:right}
-#stage>#saveState.error{color:#a34435}#selectionState{max-width:calc(100% - 160px)}
-#transformTools{grid-template-columns:repeat(7,minmax(0,1fr));max-width:420px}
-#sceneObjectList{position:absolute;right:12px;bottom:84px;z-index:5;width:290px;max-width:calc(100% - 24px);max-height:min(55dvh,430px);border:1px solid #dce3d3;border-radius:16px;background:#f7f8f1f5;box-shadow:0 5px 20px #173c2520;overflow:hidden;display:flex;flex-direction:column}
-#sceneObjectList>header{display:flex;align-items:center;gap:2px;padding:2px 5px 2px 12px;flex-shrink:0}
-#sceneObjectList h2{flex:1;margin:0;min-width:0;font-size:13px;color:var(--ink)}#sceneObjectList h2 span{font-size:11px;font-weight:400;color:var(--muted)}
-#sceneObjectList button{min-height:44px;height:44px;border:0;padding:6px;background:transparent;border-radius:10px;color:var(--ink)}
-#sceneObjectList>header button{width:40px;min-width:40px}#sceneObjectList button svg{width:21px;height:21px;display:block}
-#sceneListBody{overflow-y:auto;overscroll-behavior:contain;border-top:1px solid var(--line);min-height:0}
-#sceneObjectRows{list-style:none;padding:4px;margin:0}#sceneObjectRows>li{display:flex;align-items:center;border-radius:10px;margin:2px 0;min-width:0}
-#sceneObjectRows>li[data-selected=true]{background:#deeadf}#sceneObjectRows>li[data-visible=false] .scene-object-select{opacity:.55}
-#sceneObjectRows .scene-object-select{display:flex;align-items:center;gap:8px;min-width:0;flex:1;text-align:left;padding:5px;font-size:12px}
-.scene-object-select>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sceneObjectRows .scene-object-thumb{width:32px;height:32px;min-width:32px;border-radius:6px;object-fit:cover;background:#e5ebe1;display:flex;align-items:center;justify-content:center;font-size:20px}
-#sceneObjectRows button[data-action=visibility],#sceneObjectRows button[data-action=focus]{width:40px;min-width:40px;display:flex;align-items:center;justify-content:center}
-#sceneObjectRows button:disabled{opacity:.3}#sceneObjectRows .scene-list-empty{display:block;padding:10px;font-size:11px;color:var(--muted);line-height:1.7}
-#sceneObjectList[data-collapsed=true]{width:190px}#sceneObjectList[data-collapsed=true] #sceneListBody{display:none}
-#editorMain:not(.compact) #sceneObjectList{display:none}#save[data-state=pending] .save-indicator{background:#c79a37}
-#sceneObjectList,#transformTools{background:rgba(247,248,241,.38);border-color:rgba(220,227,211,.4);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-#sceneObjectRows>li[data-selected=true]{background:rgba(112,163,130,.15)}
-#toolbar #planBtn{font-size:14px;font-weight:700}
-#toolbar #usageButton svg,#transformTools #toggleGuides svg{width:24px;height:24px;display:block;margin:auto}
-#transformTools #planToolsButton svg{width:24px;height:24px;display:block;margin:auto}
-#transformTools{grid-template-columns:repeat(8,minmax(0,1fr));max-width:470px}
-#editorMain[data-view=plan] #transformTools{grid-template-columns:repeat(6,minmax(0,1fr));max-width:360px}
-#editorMain[data-view=plan] #translateTool,#editorMain[data-view=plan] #rotateTool,#editorMain[data-view=plan] #scaleTool{display:none}
-[data-plan-only][hidden],#fileTools[hidden]{display:none!important}
-#editorMain[data-view="3d"] [data-plan-only]{display:none!important}
-#structureDrawTools>summary,#structureTools>summary{font-weight:650}
-#stage.sketching #sceneObjectList{display:none}#stage.sketching #drawActions{top:auto;bottom:84px;left:12px;right:12px;justify-content:center}
-#usageDialog{box-sizing:border-box;width:min(480px,calc(100% - 32px));max-height:calc(100dvh - 48px);overflow:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:20px;padding:20px 24px;background:var(--cream);color:var(--ink)}
-#usageDialog::backdrop{background:#12291e77;backdrop-filter:blur(3px)}
-.usage-heading{display:flex;align-items:center;gap:12px;justify-content:space-between;position:sticky;top:-20px;background:var(--cream);padding:4px 0 8px}
-#usageTitle{font-size:20px;margin:0}#closeUsage{width:44px;min-width:44px;height:44px;padding:0;border:0;background:transparent;font-size:26px}
-#coverageNote{font-size:13px;line-height:1.8}#coverageNote h3{font-size:14px;margin:14px 0 6px}#coverageNote p{margin:6px 0 14px}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#fileTools{display:none!important}}
-@media(max-width:380px){#toolbar{left:8px;right:8px;gap:2px}#toolbar #stageProjectActions{gap:2px}#toolbar>button,#toolbar #stageProjectActions>button{width:40px;min-width:40px;height:44px;min-height:44px}#transformTools{padding:3px;left:4px;right:4px}}
-#status{top:108px;bottom:auto!important;left:12px;right:12px;font-size:10px;max-height:44px;width:auto;pointer-events:none}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){#sceneObjectList{max-height:38dvh;width:280px}#sceneObjectList[data-collapsed=true]{width:180px}#stage>#saveState{font-size:9px;max-width:118px}#status{top:108px;bottom:auto;max-width:calc(100% - 24px)}}
-@media(max-height:520px) and (max-width:1100px){#sceneObjectList{max-height:55dvh;width:270px}#status{right:auto;max-width:330px;width:calc(100% - 24px)}}
-/* Persistent, touch-sized navigation for all three project steps. */
-.editor-header{height:132px;padding-bottom:60px}.editor-header .editor-flow{display:block;position:absolute;left:28px;right:28px;bottom:4px;margin:0;max-width:650px}
-#editorMain,#editorMain.compact{height:calc(100dvh - 132px)}
-.view-expanded .editor-flow{position:fixed;z-index:65;top:6px;bottom:auto;left:12px;right:12px;max-width:470px;background:rgba(247,248,241,.8);border-radius:12px;backdrop-filter:blur(4px)}
-.view-expanded #toolbar{top:60px}.view-expanded #selectionState{top:114px}.view-expanded #stage>#saveState{top:112px}.view-expanded #status{top:156px}
-@media(max-width:900px),(max-height:520px) and (max-width:1100px){.editor-header{height:116px;padding-bottom:56px}.editor-header .editor-flow{left:12px;right:12px;bottom:4px}#editorMain,#editorMain.compact{height:calc(100dvh - 116px - env(safe-area-inset-top))}}
-@media(max-height:520px) and (max-width:1100px){.editor-header{height:96px;padding-top:4px;padding-bottom:52px}#editorMain,#editorMain.compact{height:calc(100dvh - 96px)}}
-.view-expanded .editor-header .editor-flow{top:6px;bottom:auto;left:12px;right:12px}
-/* Render composition uses the same live 3D view with one compact bottom bar. */
-#transformTools{grid-template-columns:repeat(9,minmax(0,1fr));max-width:520px}
-#editorMain[data-view=plan] #transformTools{grid-template-columns:repeat(7,minmax(0,1fr));max-width:420px}
-#transformTools #overview svg{width:24px;height:24px;display:block;margin:auto}
-#renderComposer{position:absolute;z-index:6;left:12px;right:12px;bottom:max(10px,env(safe-area-inset-bottom));max-width:560px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px;padding:10px 12px;border:1px solid rgba(220,227,211,.5);border-radius:17px;background:rgba(247,248,241,.76);backdrop-filter:blur(6px);box-shadow:0 4px 18px #16382722}
-#renderComposer label{display:flex;flex-direction:column;gap:5px;min-width:0;font-size:11px;color:var(--ink)}#renderComposer select{min-width:0;min-height:44px;padding:8px;font-size:14px}#renderComposer>button{min-height:44px;min-width:100px;padding:8px 16px;white-space:nowrap}
-#editorMain[data-step=effects]{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important}
-#editorMain[data-step=effects] #editorPanel,#editorMain[data-step=effects] #toolbar,#editorMain[data-step=effects] #transformTools,#editorMain[data-step=effects] #sceneObjectList,#editorMain[data-step=effects] #selectionState,#editorMain[data-step=effects] #stage>#saveState,#editorMain[data-step=effects] #status,#editorMain[data-step=effects] #drawActions{display:none!important}
-#editorMain[data-step=effects] #stage>#saveState.error{display:block!important}
-@media(max-width:650px){#renderComposer{left:8px;right:8px;gap:8px;padding:10px}#renderComposer select{font-size:16px}#renderComposer>button{min-width:88px;padding:8px 12px}}
-/* Plan calibration stays inside the viewport, without a separate tool sheet. */
-#selectionState[data-selection=scene]{display:none!important}
-#editorMain[data-view=plan],#editorMain.compact[data-view=plan]{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr)}
-#editorMain[data-view=plan] #editorPanel,#editorMain[data-view=plan] #transformTools,#editorMain[data-view=plan] #sceneObjectList,#editorMain[data-view=plan] #selectionState,#editorMain[data-view=plan] #status,#editorMain[data-view=plan] #generateEffect,#editorMain[data-view=plan] #moreButton{display:none!important}
-#planCalibration{position:absolute;z-index:5;right:12px;bottom:12px;width:320px;max-height:calc(100% - 84px);overflow-y:auto;overscroll-behavior:contain;padding:10px 12px;border:1px solid #d5dfd3;border-radius:17px;background:rgba(247,248,241,.94);box-shadow:0 4px 18px #16382715;color:var(--ink)}
-#planCalibration>header{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:8px}#planCalibration h2{font-size:14px;margin:0;white-space:nowrap}#planCalibration h2 small{font-size:10px;font-weight:400;color:var(--muted);margin-left:4px}
-#planActions{display:flex;gap:2px}#planActions button{min-height:44px;min-width:38px;border:0;background:transparent;padding:4px;font-size:23px}#planActions #drawFloor{font-size:12px;background:#e1ece1;padding:6px 8px;white-space:nowrap}#drawFloor span{font-size:20px;vertical-align:middle}
-#planActions #drawFloor{display:inline-flex;align-items:center;gap:4px}#drawFloor svg{width:20px;height:20px;flex:none}
-#planCalibration label{display:block;min-width:0;font-size:11px;color:var(--muted)}#planCalibration input[type=number]{font-size:16px;padding:6px 9px;min-height:42px;height:42px;margin:3px 0 0}
-#planLevels,#floorform{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px}#floorform{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}#floorform input[type=number]{padding:6px;font-size:15px}#planLevels{margin-bottom:7px}#planBounds{margin-bottom:8px}
-#planScale{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end;margin-bottom:7px}#planScale button{min-height:42px;padding:6px;font-size:12px}
-#planWallOptions{display:flex;flex-wrap:wrap;gap:2px 8px}#planWallOptions label{display:flex;align-items:center;gap:3px;min-height:32px;font-size:10px}#planWallOptions input{margin:0}#planWallOptions #roomBoundaryNote{width:100%;margin:0;font-size:10px;line-height:1.5}
-#planFeedback{margin:6px 0 0;font-size:11px;line-height:1.5;color:var(--green);background:#e5eee2;border-radius:7px;padding:6px 8px}
-#editorMain[data-view=plan] #drawActions{z-index:7;top:70px;bottom:auto;left:12px;right:12px;justify-content:center}
-#stage.sketching #planCalibration input,#stage.sketching #planCalibration #calibrate,#stage.sketching #drawFloor{pointer-events:none;opacity:.45}
-#editorMain[data-step=effects] #planCalibration{display:none!important}
-#planWallTools{display:flex;align-items:center;gap:7px;margin-bottom:10px}#planWallTools button{min-height:40px;padding:5px 8px;background:#e1ece1;font-size:12px}#planWallTools #deleteWall{font-size:23px;min-width:38px;background:transparent}#wallEditInfo{flex:1;font-size:11px;line-height:1.5;color:var(--muted)}#planBoundaryNote{display:block;font-size:10px;color:var(--muted);line-height:1.5}
-#savedEffectsLabel{grid-column:1/-1}#savedEffectsLabel select{width:100%}
-@media(max-width:699px){#planCalibration{left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));width:auto;max-height:calc(100% - 210px);padding:8px 12px}#planCalibration>header{margin-bottom:5px}#planLevels,#floorform{gap:5px 10px}#planCalibration input[type=number]{min-height:38px;height:38px}#planScale button{min-height:38px}#planWallOptions #roomBoundaryNote{font-size:9px}}
-@media(max-height:520px) and (min-width:700px){#planCalibration{top:72px;bottom:8px;max-height:none}}
-#toolbar #expandScene svg{width:25px;height:25px}#sceneObjectList{width:230px}#sceneObjectRows button[data-action=remove]{width:40px;min-width:40px;display:flex;align-items:center;justify-content:center}#sceneObjectRows .scene-object-select{justify-content:center}
-@media(max-width:900px){#sceneObjectList{width:230px}}
-@media(orientation:landscape) and (max-height:520px){#sceneObjectList{bottom:74px;max-height:calc(100dvh - 150px);width:230px}#usageDialog{width:min(700px,calc(100% - 32px));max-height:calc(100dvh - 20px)}#renderComposer{left:12px;right:12px;bottom:8px;max-width:760px;grid-template-columns:minmax(170px,1fr) minmax(200px,1fr) auto;align-items:end}#savedEffectsLabel{grid-column:auto}.view-expanded #editorPanel{width:min(380px,48vw)}.save-recovery{max-width:420px;right:12px;left:auto;max-height:70dvh;overflow:auto}}
-#effectHistoryStatus{grid-column:1/-1;margin:0;font-size:11px;line-height:1.5;color:#915024}
+.editor-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 28px;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.editor-heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.editor-heading small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.editor-heading h1 {
+  font-size: 21px;
+  margin: 4px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  border-radius: 24px;
+  background: #e9efdf;
+  color: #6c7e61;
+  padding: 7px 12px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+#editorMain {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 340px;
+  grid-template-rows: minmax(0,1fr);
+  padding: 24px 28px;
+  gap: 26px;
+  max-width: 1800px;
+  margin: auto;
+  overflow: hidden;
+}
+
+#stage {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #dce2d8;
+}
+
+#editorPanel {
+  grid-column: 2;
+  grid-row: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 4px 18px;
+  scrollbar-width: thin;
+}
+
+#editorMain.compact {
+  grid-template-columns: minmax(0,1fr);
+}
+
+#editorMain.compact #editorPanel {
+  display: none;
+}
+
+#plan {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+#three {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  display: none;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+#toolbar {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+#toolbar>button {
+  pointer-events: auto;
+  border: 0;
+  background: #ffffffed;
+  box-shadow: 0 2px 8px #283e2410;
+}
+
+#toolbar>.primary {
+  background: var(--green);
+  color: #fff;
+}
+
+#panelToggle {
+  display: none;
+}
+
+.sheet-heading {
+  position: relative;
+  padding: 0 0 16px;
+}
+
+.sheet-heading>h2 {
+  font-size: 21px;
+  margin: 5px 0 0;
+}
+
+.sheet-grip {
+  display: none;
+}
+
+#desktopPanelNav {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: grid;
+  gap: 3px;
+  padding: 0 0 14px;
+  background: var(--cream);
+}
+
+#desktopPanelNav button {
+  padding: 7px 3px;
+  font-size: 11px;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+}
+
+#desktopPanelNav button[aria-pressed=true] {
+  background: #e5ecdd;
+  color: var(--green);
+}
+
+#desktopPanelNav .primary {
+  background: var(--green);
+  color: white;
+}
+
+#editorPanel section {
+  margin-bottom: 20px;
+}
+
+#editorPanel h2 {
+  font-size: 15px;
+  margin: 8px 0 13px;
+  color: var(--ink);
+}
+
+#editorPanel label {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 9px 0;
+}
+
+#editorPanel input {
+  margin-top: 5px;
+}
+
+#editorPanel select {
+  margin-top: 5px;
+}
+
+#editorPanel input[type=number] {
+  width: 100%;
+  min-width: 0;
+}
+
+#editorPanel .row {
+  gap: 8px;
+}
+
+#editorPanel .row>label {
+  flex: 1;
+  min-width: 75px;
+}
+
+#editorPanel .row>button {
+  flex: 1;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+#editorPanel input[type=checkbox] {
+  margin: 0;
+  min-height: 0;
+}
+
+#editorPanel #objectName {
+  width: 100%;
+}
+
+.note {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 12px 0;
+}
+
+#objectCount {
+  font-size: 10px;
+  color: var(--muted);
+  float: right;
+}
+
+.object-section>.row {
+  margin: 12px 0;
+}
+
+#addBuiltin {
+  min-height: 50px;
+  border-radius: 12px;
+}
+
+#uploadObject {
+  min-height: 50px;
+  border-radius: 12px;
+  border-style: dashed;
+}
+
+.rotation-buttons {
+  flex: 1;
+}
+
+.rotation-buttons button {
+  min-width: 75px;
+}
+
+#apply {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.object-section {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 15px;
+}
+
+#compareTools>.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 18px 0;
+}
+
+#exportComparison {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+#moreTools>details {
+  padding-bottom: 10px;
+}
+
+#floorform input {
+  width: 100%;
+}
+
+#status {
+  position: absolute;
+  z-index: 2;
+  background: #f7f8f1ed;
+  border-radius: 12px;
+  padding: 11px 14px;
+  line-height: 1.65;
+  overflow: auto;
+}
+
+#drawActions {
+  position: absolute;
+  z-index: 5;
+  top: 112px;
+  left: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+#drawActions button {
+  border-color: var(--green);
+  font-weight: 600;
+}
+
+#error {
+  font-size: 12px;
+  color: #a34435;
+  overflow-wrap: anywhere;
+}
+
+#cloudPrevious {
+  margin-top: 8px;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  .editor-header {
+    padding: 8px 12px;
+  }
+
+  .editor-header .back {
+    width: 30px;
+  }
+
+  .editor-heading small {
+    font-size: 9px;
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .editor-heading h1 {
+    font-size: 16px;
+    margin-top: 2px;
+  }
+
+  .editor-header .connection-link {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .editor-header .badge {
+    display: none;
+  }
+
+  #editorMain {
+    display: grid;
+    grid-template-columns: minmax(0,1fr);
+    grid-template-rows: minmax(160px,1fr) min(47dvh,410px);
+    width: 100%;
+  }
+
+  #editorMain.compact {
+    display: grid;
+    grid-template-columns: minmax(0,1fr);
+    width: 100%;
+  }
+
+  #stage {
+    grid-column: 1;
+    grid-row: 1;
+    border-radius: 0;
+    min-height: 0;
+  }
+
+  #editorPanel {
+    grid-column: 1;
+    grid-row: 2;
+    position: relative;
+    background: var(--cream);
+    border: 1px solid #dce3d3;
+    border-bottom: 0;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -5px 20px #16382710;
+    padding: 0 18px 18px;
+    z-index: 5;
+  }
+
+  #editorMain.compact #editorPanel {
+    display: none;
+  }
+
+  .sheet-heading {
+    position: sticky;
+    top: 0;
+    background: var(--cream);
+    z-index: 5;
+    padding: 12px 40px 8px 0;
+  }
+
+  .sheet-heading>h2 {
+    font-size: 17px;
+    margin: 6px 0;
+  }
+
+  #editorPanel .sheet-heading>h2 {
+    font-size: 17px;
+    margin: 6px 0;
+  }
+
+  .sheet-grip {
+    display: block;
+    position: absolute;
+    width: 32px;
+    height: 4px;
+    background: #ced7c6;
+    border-radius: 4px;
+    top: 7px;
+    left: calc(50% - 16px);
+  }
+
+  #closePanel {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 24px;
+  }
+
+  #desktopPanelNav {
+    display: none;
+  }
+
+  #toolbar {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    gap: 4px;
+  }
+
+  #toolbar #panelToggle {
+    display: none;
+  }
+
+  #status {
+    left: 12px;
+    right: 12px;
+    line-height: 1.5;
+  }
+
+  #drawActions {
+    top: 100px;
+    left: 12px;
+  }
+
+  #drawActions button {
+    font-size: 12px;
+  }
+
+  #editorPanel .row>label {
+    min-width: 72px;
+  }
+
+  #editorPanel button {
+    min-height: 44px;
+  }
+
+  #editorPanel input {
+    font-size: 16px;
+  }
+
+  #editorPanel select {
+    font-size: 16px;
+  }
+
+  #editorPanel textarea {
+    font-size: 16px;
+  }
+
+  #editorPanel section {
+    margin-bottom: 14px;
+  }
+
+  #editorPanel .note {
+    font-size: 10px;
+  }
+
+  .object-section>.row {
+    margin: 10px 0;
+  }
+
+  #apply {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    box-shadow: 0 -6px 10px var(--cream);
+  }
+}
+
+@media(max-height:520px) and (max-width:1100px) {
+  #editorMain {
+    grid-template-columns: minmax(0,1fr) 280px;
+    grid-template-rows: minmax(0,1fr);
+  }
+
+  #editorMain.compact {
+    grid-template-rows: minmax(0,1fr);
+  }
+
+  #editorPanel {
+    grid-column: 2;
+    grid-row: 1;
+    border-radius: 0;
+    padding: 0 12px 12px;
+  }
+
+  #drawActions {
+    top: 64px;
+  }
+}
+
+@media(max-width:900px) and (min-height:521px) {
+  .editor-header {
+    height: calc(68px + env(safe-area-inset-top));
+    padding-top: calc(8px + env(safe-area-inset-top));
+  }
+
+  #editorMain {
+    height: calc(var(--app-height,100dvh) - 140px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  #editorMain.compact {
+    height: calc(var(--app-height,100dvh) - 140px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
+
+#sceneActions {
+  position: absolute;
+  z-index: 4;
+  left: 16px;
+  bottom: 16px;
+  display: grid;
+  gap: 5px;
+  background: #f7f8f1f5;
+  border: 1px solid #dce3d3;
+  border-radius: 16px;
+  padding: 7px;
+  box-shadow: 0 4px 20px #1c37211c;
+}
+
+#sceneActions button {
+  min-width: 0;
+  min-height: 44px;
+  white-space: nowrap;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 6px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--ink);
+}
+
+#sceneActions #save {
+  background: var(--green);
+  color: #fff;
+}
+
+#sceneActions #beforeView[aria-pressed=true] {
+  background: #e0e9d8;
+  color: var(--green);
+  font-weight: 650;
+}
+
+#sceneActions #afterView[aria-pressed=true] {
+  background: #e0e9d8;
+  color: var(--green);
+  font-weight: 650;
+}
+
+#stage.moving canvas {
+  cursor: grab;
+}
+
+#stage.moving canvas:active {
+  cursor: grabbing;
+}
+
+#stage.moving {
+  box-shadow: inset 0 0 0 2px #78a78c;
+}
+
+#compareTools {
+  margin-bottom: 18px;
+}
+
+#compareTools>summary {
+  font-weight: 600;
+}
+
+#compareTools>.primary {
+  margin-top: 12px;
+}
+
+#precisePlacement {
+  margin-top: 10px;
+}
+
+#editorPanel #apply {
+  position: static;
+  box-shadow: none;
+}
+
+.rotation-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.rotation-buttons>button {
+  flex: 1;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  #sceneActions {
+    bottom: 10px;
+    padding: 5px;
+    gap: 2px;
+    border-radius: 14px;
+  }
+
+  #sceneActions button {
+    font-size: 11px;
+    padding: 7px 3px;
+  }
+
+  #status {
+    padding: 8px 10px;
+  }
+
+  #editorPanel .rotation-buttons {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+@media(max-width:900px) and (min-height:521px) {
+  #editorMain[data-panel-group=placement]:not(.compact) {
+    grid-template-rows: minmax(160px,1fr) min(36dvh,320px);
+  }
+}
+
+@media(max-height:520px) and (max-width:1100px) {
+  #status {
+    font-size: 9px;
+    padding: 5px 8px;
+  }
+
+  #sceneActions {
+    bottom: 8px;
+  }
+}
+
+#desktopPanelNav {
+  grid-template-columns: 1fr 1fr;
+}
+
+.editor-header {
+  position: relative;
+}
+
+#saveState {
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 200px;
+}
+
+#saveState.error {
+  color: #a34435;
+}
+
+#objectSection {
+  display: flex;
+  flex-direction: column;
+}
+
+#objectSection #addObject {
+  order: -10;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+#currentObjectDetails {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  margin-top: 12px;
+}
+
+#currentObjectDetails>.row {
+  display: flex;
+}
+
+#assetDetails {
+  margin-top: 15px;
+}
+
+#placementError {
+  font-size: 11px;
+  padding: 10px;
+  border: 1px solid #dfb7ad;
+  border-radius: 8px;
+  line-height: 1.8;
+}
+
+#sceneActions {
+  right: 190px;
+  max-width: 540px;
+  margin: 0;
+}
+
+#sceneActions #afterView {
+  display: none;
+}
+
+#beforeView[aria-pressed=true] {
+  font-size: 11px;
+}
+
+.add-methods {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.add-methods>button {
+  text-align: left;
+  padding: 15px;
+}
+
+.add-methods small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.7;
+}
+
+.load-error {
+  position: fixed;
+  z-index: 50;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(520px,calc(100% - 32px));
+  background: var(--cream);
+  border: 1px solid #d5b7a8;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.load-error p {
+  font-size: 13px;
+}
+
+.load-error>a {
+  margin-left: 18px;
+  font-size: 12px;
+}
+
+.asset-error {
+  position: absolute;
+  top: 115px;
+  left: 16px;
+  right: 16px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff2df;
+  border: 1px solid #ddc6a5;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.asset-error span {
+  flex: 1;
+}
+
+.asset-error button {
+  min-height: 36px;
+  font-size: 11px;
+}
+
+#editorPanel .editor-object-generation {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+#editorPanel .object-generation-intro {
+  display: none;
+}
+
+#cameraA {
+  max-width: 145px;
+}
+
+#editorMain[data-panel-group=objects] #placementSection {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+#coverageTools {
+  margin-top: 16px;
+}
+
+#editorPanel #compareTools {
+  border-top: 1px solid var(--line);
+  padding-top: 15px;
+}
+
+@media(max-width:1250px) {
+  .editor-header .badge {
+    display: none;
+  }
+
+  #editorMain {
+    gap: 18px;
+    padding: 20px;
+  }
+
+  #sceneActions {
+    right: 160px;
+  }
+
+  #toolbar>button {
+    padding: 8px 12px;
+  }
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  #editorMain {
+    padding: 0;
+    gap: 0;
+  }
+
+  #editorMain.compact {
+    padding: 0;
+    gap: 0;
+  }
+
+  #sceneActions {
+    left: 10px;
+    right: 10px;
+    margin: auto;
+    max-width: 540px;
+  }
+
+  #saveState {
+    font-size: 9px;
+    overflow-wrap: anywhere;
+  }
+
+  .editor-heading small {
+    display: none;
+  }
+
+  .editor-header>.app-help {
+    font-size: 10px;
+  }
+
+  .asset-error {
+    top: 98px;
+    left: 12px;
+    right: 12px;
+    font-size: 10px;
+    padding: 8px;
+  }
+
+  #editorPanel #addObject {
+    min-height: 46px;
+    margin-top: 8px;
+  }
+
+  .load-error {
+    top: 85px;
+  }
+
+  #currentObjectDetails>.row>button {
+    font-size: 11px;
+  }
+}
+
+#objectSection {
+  border-bottom: 0;
+}
+
+#editorPanel #currentObjectDetails {
+  margin-top: 0;
+  padding-top: 0;
+  border: 0;
+}
+
+#editorPanel #placementSection {
+  border: 0 !important;
+  padding-top: 0 !important;
+  margin: 0 0 12px;
+}
+
+#placementSection>.note {
+  margin: 6px 0;
+  font-size: 10px;
+}
+
+#editorPanel .editor-object-generation {
+  order: 20;
+  margin-top: 18px;
+}
+
+#assetDetails {
+  order: 10;
+}
+
+#sceneActions {
+  grid-template-columns: 1.25fr 1.25fr .8fr .8fr;
+}
+
+#sceneActions button:disabled {
+  opacity: .38;
+}
+
+#sceneActions #undo {
+  border-left: 1px solid var(--line);
+  border-radius: 0;
+}
+
+#sceneActions #redo {
+  border-left: 1px solid var(--line);
+  border-radius: 0;
+}
+
+#editorPanel #addObject {
+  margin-bottom: 10px;
+}
+
+.save-retry {
+  color: #a34435;
+  background: #fff1e5;
+  border-color: #dfb7ad;
+  min-height: 36px;
+  padding: 5px 10px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+#editorPanel #saveNow {
+  margin: 12px 0;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  #sceneActions {
+    grid-template-columns: 1.25fr 1.25fr .8fr .8fr;
+  }
+
+  .save-retry {
+    font-size: 10px;
+    padding: 5px 7px;
+  }
+
+  #editorPanel #addObject {
+    margin-bottom: 10px;
+  }
+}
+
+#editorPanel #objectName {
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 13px;
+  background: #fff;
+}
+
+#desktopPanelNav {
+  margin-bottom: 10px;
+}
+
+#objectSection>h2 {
+  margin-top: 0;
+}
+
+@media(min-width:901px) and (min-height:521px) {
+  #editorPanel>.sheet-heading {
+    display: none;
+  }
+}
+
+.save-recovery {
+  position: fixed;
+  z-index: 45;
+  top: 88px;
+  right: 24px;
+  width: min(430px,calc(100% - 24px));
+  padding: 20px;
+  background: #fff4df;
+  border: 1px solid #dec8a4;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px #17312125;
+}
+
+.save-recovery h2 {
+  font-size: 17px;
+  margin: 0 30px 12px 0;
+}
+
+.save-recovery p {
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.recovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.recovery-actions button {
+  min-height: 44px;
+  font-size: 12px;
+}
+
+.recovery-actions a {
+  min-height: 44px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  color: var(--green);
+  text-decoration: underline;
+}
+
+#closeRecovery {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background: transparent;
+  border: 0;
+  font-size: 23px;
+}
+
+#localBackup {
+  min-height: 36px;
+  font-size: 11px;
+  padding: 5px 8px;
+}
+
+.load-error a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  .save-recovery {
+    top: 76px;
+    right: 12px;
+    padding: 16px;
+  }
+
+  #localBackup {
+    font-size: 10px;
+    padding: 3px;
+  }
+
+  .editor-header {
+    gap: 6px;
+  }
+
+  #saveState {
+    max-width: 72px;
+  }
+}
+
+#editorPanel #currentObjectDetails {
+  scroll-margin-top: 70px;
+}
+
+#editorPanel #placementSection {
+  scroll-margin-top: 70px;
+}
+
+#editorPanel #objectSection {
+  scroll-margin-top: 70px;
+}
+
+#editorPanel #fileTools {
+  scroll-margin-top: 70px;
+}
+
+#toolbar {
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  gap: 4px;
+  justify-content: flex-start;
+}
+
+#toolbar>button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 !important;
+  font-size: 23px;
+  border-radius: 14px;
+}
+
+#toolbar #view3d {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#toolbar #moreButton {
+  margin-left: auto;
+}
+
+#toolbar button:disabled {
+  opacity: .4;
+}
+
+#toolbar #panelToggle {
+  display: none !important;
+}
+
+#editorPanel>.sheet-heading {
+  display: block !important;
+  position: sticky;
+  top: 0;
+  background: var(--cream);
+  padding: 10px 40px 10px 0;
+  z-index: 5;
+}
+
+#editorPanel .sheet-heading h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+#closePanel {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 24px;
+}
+
+#selectionState {
+  position: absolute;
+  z-index: 3;
+  top: 66px;
+  left: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 20px;
+  background: #f7f8f1ed;
+  color: var(--green);
+  font-size: 12px;
+  padding: 7px 12px;
+  pointer-events: none;
+}
+
+#selectionState[data-selection=object] {
+  background: #285f4f;
+  color: #fff;
+}
+
+#transformTools {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: max(8px,env(safe-area-inset-bottom));
+  margin: auto;
+  display: grid;
+  padding: 5px;
+  border: 1px solid #dce3d3;
+  border-radius: 17px;
+  box-shadow: 0 4px 18px #16382722;
+}
+
+#transformTools>button {
+  min-width: 0;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  font-size: 25px;
+  color: var(--ink);
+}
+
+#transformTools #sceneActions>button {
+  min-width: 0;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  font-size: 25px;
+  color: var(--ink);
+}
+
+#transformTools button[aria-pressed=true] {
+  background: var(--green);
+  color: #fff;
+}
+
+#transformTools button:disabled {
+  opacity: .28;
+}
+
+#transformTools #sceneActions {
+  display: contents;
+  position: static;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: none;
+}
+
+#transformTools #sceneActions #undo {
+  border: 0;
+  border-radius: 11px;
+}
+
+#transformTools #sceneActions #redo {
+  border: 0;
+  border-radius: 11px;
+}
+
+#transformTools #sceneActions #beforeView[aria-pressed=true] {
+  font-size: 25px;
+  background: var(--green);
+  color: #fff;
+}
+
+#roomBoundaryNote {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.view-expanded #editorMain {
+  z-index: 60;
+  grid-template-rows: minmax(0,1fr);
+  grid-template-columns: minmax(0,1fr);
+}
+
+.view-expanded #stage {
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  background: #dce2d8;
+}
+
+#stage:fullscreen {
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  background: #dce2d8;
+}
+
+#stage:fullscreen #toolbar {
+  padding-top: env(safe-area-inset-top);
+}
+
+.view-expanded #editorPanel {
+  position: absolute;
+  z-index: 8;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(340px,85vw);
+  background: var(--cream);
+  padding: 12px 16px;
+  border-radius: 0;
+  box-shadow: -8px 0 30px #16382722;
+}
+
+.view-expanded #editorMain.compact #editorPanel {
+  display: none;
+}
+
+.view-expanded #closePanel {
+  display: block;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  #toolbar>button {
+    font-size: 23px;
+    min-height: 44px;
+    padding: 0;
+  }
+
+  #toolbar #moreButton {
+    font-size: 23px;
+  }
+
+  #editorMain:not(.compact) {
+    grid-template-rows: minmax(140px,1fr) min(50dvh,440px);
+  }
+
+  #editorMain.compact {
+    grid-template-rows: minmax(0,1fr);
+  }
+
+  #status {
+    font-size: 10px;
+    max-height: 42px;
+  }
+
+  #selectionState {
+    font-size: 11px;
+  }
+}
+
+@media(max-height:520px) and (max-width:1100px) {
+  #editorMain:not(.compact) {
+    grid-template-columns: minmax(0,1fr) 280px;
+    grid-template-rows: minmax(0,1fr);
+  }
+
+  #editorMain.compact {
+    grid-template-columns: minmax(0,1fr);
+  }
+
+  #status {
+    left: auto;
+    bottom: 76px;
+    max-height: 32px;
+  }
+
+  #selectionState {
+    top: 64px;
+  }
+
+  .view-expanded #editorMain:not(.compact) {
+    grid-template-columns: minmax(0,1fr);
+  }
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  #localBackup {
+    max-width: none;
+    min-width: 54px;
+    white-space: nowrap;
+  }
+
+  .editor-header>.app-help:not([open]) {
+    width: 32px;
+  }
+
+  .editor-header>.app-help>summary {
+    font-size: 0;
+    gap: 0;
+    justify-content: flex-end;
+  }
+
+  .editor-header>.app-help>summary:after {
+    content: '⋯';
+    font-size: 22px;
+  }
+
+  .editor-header>.app-help[open] {
+    width: 210px;
+  }
+}
+
+#toolbar #stageProjectActions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  pointer-events: auto;
+  align-items: center;
+}
+
+#stageProjectActions>button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 !important;
+  border: 0;
+  border-radius: 14px;
+  font-size: 23px;
+  background: #ffffffed;
+  box-shadow: 0 2px 8px #283e2410;
+  color: var(--ink);
+}
+
+#stageProjectActions #moreButton {
+  margin-left: 0;
+  font-size: 23px;
+}
+
+#stageProjectActions #save {
+  position: relative;
+  font-size: 22px;
+}
+
+#stageProjectActions #save svg {
+  width: 23px;
+  height: 23px;
+}
+
+#stageProjectActions #save:disabled {
+  opacity: .65;
+}
+
+.save-indicator {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  background: #9aa99f;
+}
+
+#save[data-state=saved] .save-indicator {
+  background: #347e59;
+}
+
+#save[data-state=error] .save-indicator {
+  background: #b34838;
+}
+
+#save[data-state=saving] .save-indicator {
+  background: #c79a37;
+  animation: save-pulse .8s infinite alternate;
+}
+
+@keyframes save-pulse {
+  to {
+    opacity: .25;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  #save[data-state=saving] .save-indicator {
+    animation: none;
+  }
+}
+
+#stage>#saveState {
+  position: absolute;
+  right: 12px;
+  top: 64px;
+  z-index: 3;
+  max-width: 130px;
+  font-size: 10px;
+  color: var(--green);
+  background: #f7f8f1ed;
+  padding: 5px 8px;
+  border-radius: 12px;
+  pointer-events: none;
+  text-align: right;
+}
+
+#stage>#saveState.error {
+  color: #a34435;
+}
+
+#selectionState {
+  max-width: calc(100% - 160px);
+}
+
+#sceneObjectList {
+  position: absolute;
+  right: 12px;
+  bottom: 84px;
+  z-index: 5;
+  max-width: calc(100% - 24px);
+  max-height: min(55dvh,430px);
+  border: 1px solid #dce3d3;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px #173c2520;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#sceneObjectList>header {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 5px 2px 12px;
+  flex-shrink: 0;
+}
+
+#sceneObjectList h2 {
+  flex: 1;
+  margin: 0;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+#sceneObjectList h2 span {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+#sceneObjectList button {
+  min-height: 44px;
+  height: 44px;
+  border: 0;
+  padding: 6px;
+  background: transparent;
+  border-radius: 10px;
+  color: var(--ink);
+}
+
+#sceneObjectList>header button {
+  width: 40px;
+  min-width: 40px;
+}
+
+#sceneObjectList button svg {
+  width: 21px;
+  height: 21px;
+  display: block;
+}
+
+#sceneListBody {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top: 1px solid var(--line);
+  min-height: 0;
+}
+
+#sceneObjectRows {
+  list-style: none;
+  padding: 4px;
+  margin: 0;
+}
+
+#sceneObjectRows>li {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  margin: 2px 0;
+  min-width: 0;
+}
+
+#sceneObjectRows>li[data-visible=false] .scene-object-select {
+  opacity: .55;
+}
+
+#sceneObjectRows .scene-object-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+  text-align: left;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.scene-object-select>span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#sceneObjectRows .scene-object-thumb {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #e5ebe1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+#sceneObjectRows button[data-action=visibility] {
+  width: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sceneObjectRows button[data-action=focus] {
+  width: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sceneObjectRows button:disabled {
+  opacity: .3;
+}
+
+#sceneObjectRows .scene-list-empty {
+  display: block;
+  padding: 10px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+#sceneObjectList[data-collapsed=true] {
+  width: 190px;
+}
+
+#sceneObjectList[data-collapsed=true] #sceneListBody {
+  display: none;
+}
+
+#editorMain:not(.compact) #sceneObjectList {
+  display: none;
+}
+
+#save[data-state=pending] .save-indicator {
+  background: #c79a37;
+}
+
+#sceneObjectList {
+  background: rgba(247,248,241,.38);
+  border-color: rgba(220,227,211,.4);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+#transformTools {
+  background: rgba(247,248,241,.38);
+  border-color: rgba(220,227,211,.4);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+#sceneObjectRows>li[data-selected=true] {
+  background: rgba(112,163,130,.15);
+}
+
+#toolbar #planBtn {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#toolbar #usageButton svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  margin: auto;
+}
+
+#transformTools #toggleGuides svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  margin: auto;
+}
+
+#transformTools #planToolsButton svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  margin: auto;
+}
+
+#editorMain[data-view=plan] #translateTool {
+  display: none;
+}
+
+#editorMain[data-view=plan] #rotateTool {
+  display: none;
+}
+
+#editorMain[data-view=plan] #scaleTool {
+  display: none;
+}
+
+[data-plan-only][hidden] {
+  display: none !important;
+}
+
+#fileTools[hidden] {
+  display: none !important;
+}
+
+#editorMain[data-view="3d"] [data-plan-only] {
+  display: none !important;
+}
+
+#structureDrawTools>summary {
+  font-weight: 650;
+}
+
+#structureTools>summary {
+  font-weight: 650;
+}
+
+#stage.sketching #sceneObjectList {
+  display: none;
+}
+
+#stage.sketching #drawActions {
+  top: auto;
+  bottom: 84px;
+  left: 12px;
+  right: 12px;
+  justify-content: center;
+}
+
+#usageDialog {
+  box-sizing: border-box;
+  width: min(480px,calc(100% - 32px));
+  max-height: calc(var(--app-height,100dvh) - 48px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px 24px;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+#usageDialog::backdrop {
+  background: #12291e77;
+  backdrop-filter: blur(3px);
+}
+
+.usage-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  position: sticky;
+  top: -20px;
+  background: var(--cream);
+  padding: 4px 0 8px;
+}
+
+#usageTitle {
+  font-size: 20px;
+  margin: 0;
+}
+
+#closeUsage {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 26px;
+}
+
+#coverageNote {
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+#coverageNote h3 {
+  font-size: 14px;
+  margin: 14px 0 6px;
+}
+
+#coverageNote p {
+  margin: 6px 0 14px;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  #fileTools {
+    display: none !important;
+  }
+}
+
+@media(max-width:380px) {
+  #toolbar {
+    left: 8px;
+    right: 8px;
+    gap: 2px;
+  }
+
+  #toolbar #stageProjectActions {
+    gap: 2px;
+  }
+
+  #toolbar>button {
+    width: 40px;
+    min-width: 40px;
+    height: 44px;
+    min-height: 44px;
+  }
+
+  #toolbar #stageProjectActions>button {
+    width: 40px;
+    min-width: 40px;
+    height: 44px;
+    min-height: 44px;
+  }
+
+  #transformTools {
+    padding: 3px;
+    left: 4px;
+    right: 4px;
+  }
+}
+
+#status {
+  top: 108px;
+  bottom: auto !important;
+  left: 12px;
+  right: 12px;
+  font-size: 10px;
+  max-height: 44px;
+  width: auto;
+  pointer-events: none;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  #sceneObjectList {
+    max-height: 38dvh;
+    width: 280px;
+  }
+
+  #sceneObjectList[data-collapsed=true] {
+    width: 180px;
+  }
+
+  #stage>#saveState {
+    font-size: 9px;
+    max-width: 118px;
+  }
+
+  #status {
+    top: 108px;
+    bottom: auto;
+    max-width: calc(100% - 24px);
+  }
+}
+
+@media(max-height:520px) and (max-width:1100px) {
+  #sceneObjectList {
+    max-height: 55dvh;
+    width: 270px;
+  }
+
+  #status {
+    right: auto;
+    max-width: 330px;
+    width: calc(100% - 24px);
+  }
+}
+
+.editor-header {
+  height: 132px;
+  padding-bottom: 60px;
+}
+
+#editorMain {
+  height: calc(var(--app-height,100dvh) - 132px);
+}
+
+#editorMain.compact {
+  height: calc(var(--app-height,100dvh) - 132px);
+}
+
+.view-expanded #status {
+  top: 156px;
+}
+
+@media(max-width:900px),(max-height:520px) and (max-width:1100px) {
+  .editor-header {
+    height: 116px;
+    padding-bottom: 56px;
+  }
+
+  #editorMain {
+    height: calc(var(--app-height,100dvh) - 116px - env(safe-area-inset-top));
+  }
+
+  #editorMain.compact {
+    height: calc(var(--app-height,100dvh) - 116px - env(safe-area-inset-top));
+  }
+}
+
+@media(max-height:520px) and (max-width:1100px) {
+  .editor-header {
+    height: 96px;
+    padding-top: 4px;
+    padding-bottom: 52px;
+  }
+
+  #editorMain {
+    height: calc(var(--app-height,100dvh) - 96px);
+  }
+
+  #editorMain.compact {
+    height: calc(var(--app-height,100dvh) - 96px);
+  }
+}
+
+#editorMain[data-view=plan] #transformTools {
+  grid-template-columns: repeat(7,minmax(0,1fr));
+  max-width: 420px;
+}
+
+#transformTools #overview svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  margin: auto;
+}
+
+#selectionState[data-selection=scene] {
+  display: none !important;
+}
+
+#editorMain[data-view=plan] {
+  grid-template-columns: minmax(0,1fr);
+  grid-template-rows: minmax(0,1fr);
+}
+
+#editorMain.compact[data-view=plan] {
+  grid-template-columns: minmax(0,1fr);
+  grid-template-rows: minmax(0,1fr);
+}
+
+#editorMain[data-view=plan] #editorPanel {
+  display: none !important;
+}
+
+#editorMain[data-view=plan] #transformTools {
+  display: none !important;
+}
+
+#editorMain[data-view=plan] #sceneObjectList {
+  display: none !important;
+}
+
+#editorMain[data-view=plan] #selectionState {
+  display: none !important;
+}
+
+#editorMain[data-view=plan] #status {
+  display: none !important;
+}
+
+#editorMain[data-view=plan] #moreButton {
+  display: none !important;
+}
+
+#planCalibration {
+  position: absolute;
+  z-index: 5;
+  right: 12px;
+  bottom: 12px;
+  width: 320px;
+  max-height: calc(100% - 84px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 10px 12px;
+  border: 1px solid #d5dfd3;
+  border-radius: 17px;
+  background: rgba(247,248,241,.94);
+  box-shadow: 0 4px 18px #16382715;
+  color: var(--ink);
+}
+
+#planCalibration>header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+#planCalibration h2 {
+  font-size: 14px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+#planCalibration h2 small {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+#planActions {
+  display: flex;
+  gap: 2px;
+}
+
+#planActions button {
+  min-height: 44px;
+  min-width: 38px;
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  font-size: 23px;
+}
+
+#planActions #drawFloor {
+  font-size: 12px;
+  background: #e1ece1;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
+#drawFloor span {
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+#planActions #drawFloor {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#drawFloor svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+#planCalibration label {
+  display: block;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+#planCalibration input[type=number] {
+  font-size: 16px;
+  padding: 6px 9px;
+  min-height: 42px;
+  height: 42px;
+  margin: 3px 0 0;
+}
+
+#planLevels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 10px;
+}
+
+#floorform {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 6px;
+}
+
+#floorform input[type=number] {
+  padding: 6px;
+  font-size: 15px;
+}
+
+#planLevels {
+  margin-bottom: 7px;
+}
+
+#planBounds {
+  margin-bottom: 8px;
+}
+
+#planScale {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 7px;
+}
+
+#planScale button {
+  min-height: 42px;
+  padding: 6px;
+  font-size: 12px;
+}
+
+#planWallOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+
+#planWallOptions label {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 32px;
+  font-size: 10px;
+}
+
+#planWallOptions input {
+  margin: 0;
+}
+
+#planWallOptions #roomBoundaryNote {
+  width: 100%;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+#planFeedback {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--green);
+  background: #e5eee2;
+  border-radius: 7px;
+  padding: 6px 8px;
+}
+
+#editorMain[data-view=plan] #drawActions {
+  z-index: 7;
+  top: 70px;
+  bottom: auto;
+  left: 12px;
+  right: 12px;
+  justify-content: center;
+}
+
+#stage.sketching #planCalibration input {
+  pointer-events: none;
+  opacity: .45;
+}
+
+#stage.sketching #planCalibration #calibrate {
+  pointer-events: none;
+  opacity: .45;
+}
+
+#stage.sketching #drawFloor {
+  pointer-events: none;
+  opacity: .45;
+}
+
+#planWallTools {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+#planWallTools button {
+  min-height: 40px;
+  padding: 5px 8px;
+  background: #e1ece1;
+  font-size: 12px;
+}
+
+#planWallTools #deleteWall {
+  font-size: 23px;
+  min-width: 38px;
+  background: transparent;
+}
+
+#wallEditInfo {
+  flex: 1;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+#planBoundaryNote {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media(max-width:699px) {
+  #planCalibration {
+    left: 8px;
+    right: 8px;
+    bottom: max(8px,env(safe-area-inset-bottom));
+    width: auto;
+    max-height: calc(100% - 210px);
+    padding: 8px 12px;
+  }
+
+  #planCalibration>header {
+    margin-bottom: 5px;
+  }
+
+  #planLevels {
+    gap: 5px 10px;
+  }
+
+  #floorform {
+    gap: 5px 10px;
+  }
+
+  #planCalibration input[type=number] {
+    min-height: 38px;
+    height: 38px;
+  }
+
+  #planScale button {
+    min-height: 38px;
+  }
+
+  #planWallOptions #roomBoundaryNote {
+    font-size: 9px;
+  }
+}
+
+@media(max-height:520px) and (min-width:700px) {
+  #planCalibration {
+    top: 72px;
+    bottom: 8px;
+    max-height: none;
+  }
+}
+
+#toolbar #expandScene svg {
+  width: 25px;
+  height: 25px;
+}
+
+#sceneObjectList {
+  width: 230px;
+}
+
+#sceneObjectRows button[data-action=remove] {
+  width: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sceneObjectRows .scene-object-select {
+  justify-content: center;
+}
+
+@media(max-width:900px) {
+  #sceneObjectList {
+    width: 230px;
+  }
+}
+
+@media(orientation:landscape) and (max-height:520px) {
+  #sceneObjectList {
+    bottom: 74px;
+    max-height: calc(var(--app-height,100dvh) - 150px);
+    width: 230px;
+  }
+
+  #usageDialog {
+    width: min(700px,calc(100% - 32px));
+    max-height: calc(var(--app-height,100dvh) - 20px);
+  }
+
+  .view-expanded #editorPanel {
+    width: min(380px,48vw);
+  }
+
+  .save-recovery {
+    max-width: 420px;
+    right: 12px;
+    left: auto;
+    max-height: 70dvh;
+    overflow: auto;
+  }
+}
+
+#consumerControls {
+  border: 1px solid #d9e1d4;
+  border-radius: 18px;
+  background: #f9faf3;
+  box-sizing: border-box;
+}
+
+#consumerControls>header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+#consumerControls>header h2 {
+  margin: 0;
+}
+
+#closeConsumerTools {
+  flex: 0 0 44px;
+  padding: 0 !important;
+  font-size: 24px !important;
+}
+
+#consumerControls button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+#pendingTryOn button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+.consumer-dialog button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+.consumer-dialog a.button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+.consumer-actions {
+  display: grid !important;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.consumer-extra {
+  display: grid !important;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.consumer-actions button {
+  min-width: 0 !important;
+  padding: 8px !important;
+  font-size: 13px !important;
+  height: auto !important;
+}
+
+.consumer-extra button {
+  min-width: 0 !important;
+  padding: 8px !important;
+  font-size: 13px !important;
+  height: auto !important;
+  background: transparent;
+  border: 1px solid #ccd8c6;
+}
+
+#consumerSizeNote {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 6px 0 0;
+  color: #61705f;
+}
+
+#consumerGestureHint {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 6px 0 0;
+  color: #345a3a;
+}
+
+body[data-experience=simple] #transformBar {
+  display: none !important;
+}
+
+#transformTools {
+  grid-template-columns: repeat(6,minmax(0,1fr));
+  max-width: 420px;
+  z-index: 8;
+}
+
+#transformTools>button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+  min-height: 50px;
+  height: 50px;
+  padding: 2px 0;
+}
+
+#transformTools #sceneActions>button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+  min-height: 50px;
+  height: 50px;
+  padding: 2px 0;
+}
+
+#transformTools .tool-symbol {
+  font-size: 23px;
+  line-height: 25px;
+}
+
+#transformTools .tool-label {
+  font-size: 10px;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+#transformTools [hidden] {
+  display: none !important;
+}
+
+#consumerControls[hidden] {
+  display: none !important;
+}
+
+#pendingTryOn[hidden] {
+  display: none !important;
+}
+
+#sceneLoadState[hidden] {
+  display: none !important;
+}
+
+#consumerControls [hidden] {
+  display: none !important;
+}
+
+body[data-experience=simple] #status {
+  bottom: calc(78px + env(safe-area-inset-bottom));
+  z-index: 10;
+  left: 12px;
+  right: 12px;
+  width: auto;
+  max-height: 48px;
+  font-size: 12px;
+  line-height: 1.5;
+  background: #f9faf3f5;
+  margin: 0;
+  padding: 8px 10px;
+  box-sizing: border-box;
+}
+
+body[data-experience=simple] #sceneObjectList {
+  bottom: calc(140px + env(safe-area-inset-bottom));
+  max-height: 130px;
+}
+
+#pendingTryOn {
+  position: absolute;
+  z-index: 11;
+  top: 80px;
+  left: 12px;
+  max-width: 360px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #fff7e8f5;
+  border: 1px solid #dfcaa3;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+#pendingTryOn p {
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+#pendingTryOn>div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.consumer-dialog>div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.consumer-dialog form>div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.consumer-dialog {
+  max-width: 460px;
+  width: calc(100% - 24px);
+  padding: 20px;
+  box-sizing: border-box;
+  max-height: calc(var(--app-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.consumer-dialog h2 {
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+
+.consumer-dialog p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.consumer-dialog label {
+  display: block;
+  margin: 10px 0;
+}
+
+.consumer-dialog input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  min-height: 44px;
+}
+
+.consumer-dialog [data-error] {
+  color: #a84426;
+}
+
+.consumer-dialog button {
+  flex: 1;
+}
+
+.consumer-dialog a.button {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picture-result {
+  max-width: 680px;
+}
+
+.picture-result [data-preview] {
+  display: block;
+  max-height: 55dvh;
+  width: 100%;
+  object-fit: contain;
+  background: #eaf0e5;
+  border-radius: 8px;
+}
+
+.picture-result [data-description] {
+  color: #61705f;
+  font-size: 12px;
+}
+
+.picture-result button[hidden] {
+  display: none;
+}
+
+.viewer-quality {
+  display: block;
+  font-size: 14px;
+  padding: 12px 0;
+}
+
+.viewer-quality select {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  min-height: 44px;
+  margin: 8px 0;
+}
+
+.viewer-quality small {
+  font-size: 12px;
+  color: #61705f;
+}
+
+body[data-experience=simple] #saveState {
+  font-size: 11px;
+  max-width: 160px;
+}
+
+#sceneLoadState {
+  position: absolute;
+  z-index: 16;
+  top: 76px;
+  left: 12px;
+  max-width: min(390px,calc(100% - 24px));
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f7f8f1f5;
+  border: 1px solid #d9e1d4;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+#sceneLoadState p {
+  line-height: 1.5;
+  margin: 6px 0;
+}
+
+#sceneLoadState button {
+  min-height: 44px;
+  min-width: 88px;
+  font-size: 13px;
+}
+
+#sceneLoadState[data-error=true] {
+  border-color: #dfcaa3;
+  background: #fff7e8f5;
+}
+
+#sceneLoadingCover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #eaf0e5;
+  pointer-events: none;
+}
+
+#retryFirstTryOn {
+  position: absolute;
+  z-index: 15;
+  top: 145px;
+  left: 16px;
+  min-height: 44px;
+}
+
+@media(max-width:450px) {
+  #pendingTryOn {
+    top: 66px;
+    right: 8px;
+    left: 8px;
+    max-width: none;
+    font-size: 12px;
+  }
+
+  body[data-experience=simple] #sceneObjectList {
+    max-height: 100px;
+  }
+
+  #sceneLoadState {
+    top: 66px;
+  }
+
+  .consumer-dialog {
+    padding: 16px;
+  }
+}
+
+@media(orientation:landscape) and (max-height:520px) {
+  #pendingTryOn {
+    left: auto;
+    right: 8px;
+    top: 58px;
+    width: 340px;
+  }
+
+  body[data-experience=simple] #sceneObjectList {
+    max-height: 90px;
+  }
+
+  body[data-experience=simple] #status {
+    max-width: 55%;
+    font-size: 11px;
+    max-height: 40px;
+  }
+
+  #consumerControls {
+    max-width: 460px;
+  }
+
+  #consumerControls:not([open]) {
+    display: none;
+  }
+}
+
+#appViewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+#appSurface {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+
+.view-expanded .editor-header {
+  display: none !important;
+}
+
+.view-expanded #editorMain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100% !important;
+  max-width: none;
+  padding: 0;
+  gap: 0;
+}
+
+.view-expanded #toolbar {
+  top: 8px;
+}
+
+.view-expanded #selectionState {
+  top: 60px;
+}
+
+.view-expanded #stage>#saveState {
+  top: 60px;
+}
+
+#expandScene[aria-pressed=true] {
+  background: var(--green) !important;
+  color: white !important;
+}
+
+#status.status-faded {
+  opacity: 0;
+}
+
+#status {
+  transition: opacity .15s;
+}
+
+.editor-app button[aria-label] {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app-button-hint {
+  position: fixed;
+  z-index: 2147483647;
+  max-width: min(280px,calc(var(--app-width,100vw) - 16px));
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #213e33;
+  color: #fff;
+  box-shadow: 0 3px 14px #0003;
+  font: 13px/1.5 system-ui,sans-serif;
+  text-align: center;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.app-button-hint[hidden] {
+  display: none !important;
+}
+
+body[data-app-turn="90"] dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  transform: translate(-50%,-50%) rotate(var(--app-turn));
+  max-width: calc(var(--app-width) - 24px);
+  max-height: calc(var(--app-height) - 24px);
+}
+
+body[data-app-turn="-90"] dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  transform: translate(-50%,-50%) rotate(var(--app-turn));
+  max-width: calc(var(--app-width) - 24px);
+  max-height: calc(var(--app-height) - 24px);
+}
+
+body[data-app-turn="90"] #usageDialog {
+  width: min(700px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-turn="-90"] #usageDialog {
+  width: min(700px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-turn="90"] .effect-dialog {
+  width: min(980px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-turn="-90"] .effect-dialog {
+  width: min(980px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-turn="90"] .image-zoom {
+  width: min(1300px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-turn="-90"] .image-zoom {
+  width: min(1300px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-turn="90"] .consumer-dialog {
+  width: min(460px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-turn="-90"] .consumer-dialog {
+  width: min(460px,calc(var(--app-width) - 24px));
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #toolbar {
+  top: 8px;
+  left: 8px;
+  right: 8px;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #editorMain {
+  grid-template-columns: minmax(0,1fr) !important;
+  grid-template-rows: minmax(0,1fr) !important;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #selectionState {
+  top: 60px;
+  font-size: 10px;
+  padding: 5px 9px;
+  max-width: 45%;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #stage>#saveState {
+  top: 60px;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #status {
+  top: 90px !important;
+  bottom: auto !important;
+  left: 8px;
+  right: auto;
+  width: auto;
+  max-width: calc(100% - 240px);
+  max-height: 34px;
+  padding: 6px 9px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #sceneObjectList {
+  bottom: 74px;
+  right: 8px;
+  max-height: calc(var(--app-height) - 150px);
+  width: 210px;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #sceneObjectList[data-collapsed=true] {
+  width: 170px;
+  max-height: 48px;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #transformTools {
+  bottom: 8px;
+  max-width: 420px;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #editorPanel {
+  width: min(340px,48%);
+  max-height: 100%;
+}
+
+body[data-app-mobile=true][data-app-orientation=landscape] #planCalibration {
+  left: auto;
+  right: 8px;
+  bottom: 8px;
+  width: 300px;
+  max-height: calc(var(--app-height) - 76px);
+}
+
+body[data-app-mobile=true][data-app-orientation=portrait] .editor-header {
+  height: 68px;
+  padding: 10px 12px;
+}
+
+body[data-app-mobile=true][data-app-orientation=portrait] #editorMain {
+  height: calc(var(--app-height) - 68px);
+  padding: 0;
+  gap: 0;
+  grid-template-columns: minmax(0,1fr);
+}
+
+body[data-app-mobile=true][data-app-orientation=portrait] #editorMain:not(.compact) {
+  grid-template-rows: minmax(140px,1fr) min(calc(var(--app-height) * .5),440px);
+}
+
+body[data-app-mobile=true][data-app-orientation=portrait] #editorPanel {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+body[data-app-mobile=true][data-app-orientation=portrait] #sceneObjectList {
+  bottom: 140px;
+  max-height: 130px;
+}
+
+#stageProjectActions #generateView {
+  background: var(--green);
+  color: white;
+}
+
+#generateView svg {
+  display: block;
+  width: 25px;
+  height: 25px;
+  margin: auto;
+}
+
+#editorMain[data-view=plan] #generateView {
+  display: none;
+}
+
+#editorBack .editor-back-label {
+  display: none;
+}
+
+#editorMain.landscape-editor>#editorBack {
+  position: absolute;
+  z-index: 12;
+  left: 8px;
+  top: 8px;
+  width: 100px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid #dce3d388;
+  border-radius: 12px;
+  background: #f7f8f1e8;
+  color: var(--ink);
+  font-size: 25px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+#editorMain.landscape-editor>#editorBack .editor-back-label {
+  display: inline;
+  font-size: 12px;
+}
+
+#editorMain.landscape-editor #toolbar {
+  left: 120px;
+}
+
+.editor-app .editor-header {
+  height: 68px;
+  padding: 10px 16px;
+}
+
+.editor-app #editorMain {
+  height: calc(var(--app-height,100dvh) - 68px);
+}
+
+.editor-app #editorMain.compact {
+  height: calc(var(--app-height,100dvh) - 68px);
+}

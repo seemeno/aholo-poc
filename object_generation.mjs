@@ -5,6 +5,7 @@ import {LocalProjects} from './local_projects.mjs';
 import {LocalObjectAssets} from './local_object_assets.mjs';
 import {Lux3DRuntime,LUX_RECIPE,modelProportions} from './lux3d_runtime.mjs';
 import {sanitize} from './api_client.mjs';
+import {resolveMeasurements} from './try_on.mjs';
 import {photoMeasurements} from './ui_actions.mjs';
 const pools=new Map(),active=new Set(['QUEUED','UPLOADING','RUNNING','DOWNLOADING']);
 const uuid=/^[a-f0-9-]{36}$/,jobPattern=/^[a-f0-9]{64}$/;
@@ -22,7 +23,7 @@ export class ObjectGenerations{
  async lock(key,fn){const before=this.pool.locks.get(key)??Promise.resolve(),next=before.catch(()=>{}).then(fn);this.pool.locks.set(key,next);try{return await next;}finally{if(this.pool.locks.get(key)===next)this.pool.locks.delete(key);}}
  async save(j){const dir=this.dir(j.projectId,j.id);await fs.mkdir(dir,{recursive:true});j.updatedAt=new Date().toISOString();await fs.appendFile(path.join(dir,'job.ndjson'),JSON.stringify(sanitize(j))+'\n');}
  async load(projectId,id){const lines=(await fs.readFile(path.join(this.dir(projectId,id),'job.ndjson'),'utf8')).split('\n');for(let i=lines.length-1;i>=0;i--){try{if(lines[i]){const j=JSON.parse(lines[i]);if(j.id===id&&j.projectId===projectId)return j;}}catch{}}throw Error('物品任务记录损坏');}
- public(j){return {id:j.id,projectId:j.projectId,sourceAssetId:j.sourceAssetId,sourceUrl:`/api/projects/${j.projectId}/objects/${j.sourceAssetId}`,name:j.name,category:j.category,size:j.size??null,draftSize:j.draftSize??null,state:j.state,message:j.message,error:j.error??null,taskId:j.taskId??null,resultAssetId:j.resultAssetId??null,createdAt:j.createdAt,updatedAt:j.updatedAt,attempt:j.attempt??1,canRetry:j.state==='FAILED',canResume:j.state==='PAUSED'&&!!j.taskId};}
+ public(j){return {id:j.id,projectId:j.projectId,sourceAssetId:j.sourceAssetId,sourceUrl:`/api/projects/${j.projectId}/objects/${j.sourceAssetId}`,name:j.name,category:j.category,size:j.size??null,measuredAxes:j.measuredAxes??[],sizeBasis:j.sizeBasis??null,draftSize:j.draftSize??null,state:j.state,message:j.message,error:j.error??null,taskId:j.taskId??null,resultAssetId:j.resultAssetId??null,createdAt:j.createdAt,updatedAt:j.updatedAt,attempt:j.attempt??1,canRetry:j.state==='FAILED',canResume:j.state==='PAUSED'&&!!j.taskId};}
  async list(projectId,{resume=true}={}){
   await this.projects.load(projectId);let names;try{names=await fs.readdir(path.join(this.projects.dir(projectId),'object-generations'));}catch(e){if(e.code==='ENOENT')return [];throw e;}
   const jobs=[];for(const id of names.filter(n=>jobPattern.test(n))){const j=await this.load(projectId,id);if(resume&&active.has(j.state))this.enqueue(j);jobs.push(this.public(j));}
@@ -75,9 +76,9 @@ export class ObjectGenerations{
    const url=await this.runtime.wait(j.taskId,message=>update('RUNNING',message));
    const output=new URL(url);j.outputResource={host:output.hostname,path:output.pathname};
    await update('DOWNLOADING','三维物品已生成，正在下载到电脑');
-   const bytes=await this.runtime.download(url),proportions=modelProportions(bytes,j.category),size=j.size??{...proportions,...j.draftSize};
-   const asset=await this.lock(j.projectId+':assets',()=>this.assets.store(j.projectId,bytes,j.name+'.glb',{generationId:j.id,sourceAssetId:j.sourceAssetId,category:j.category,estimatedSize:size,sizeBasis:j.size?'USER_ENTERED_STAGING_SIZE':j.draftSize?'USER_PARTIAL_STAGING_SIZE':'UNMEASURED_DEFAULT_PROPORTIONS',lux3dTaskId:j.taskId}));
-   j.resultAssetId=asset.id;j.resultSha256=asset.sha256;j.size=size;j.completedAt=new Date().toISOString();j.error=null;await update('READY','三维物品已保存，可以放入空间');
+   const bytes=await this.runtime.download(url),proportions=modelProportions(bytes,j.category),resolved=resolveMeasurements(proportions,j.size??j.draftSize),size=resolved.size;
+   const asset=await this.lock(j.projectId+':assets',()=>this.assets.store(j.projectId,bytes,j.name+'.glb',{generationId:j.id,sourceAssetId:j.sourceAssetId,category:j.category,estimatedSize:size,sizeBasis:resolved.sizeBasis,measuredAxes:resolved.measuredAxes,lux3dTaskId:j.taskId}));
+   j.resultAssetId=asset.id;j.resultSha256=asset.sha256;j.size=size;j.measuredAxes=resolved.measuredAxes;j.sizeBasis=resolved.sizeBasis;j.completedAt=new Date().toISOString();j.error=null;await update('READY','三维物品已保存，可以放入空间');
   }catch(e){j.error=String(sanitize(e.message)).slice(0,260);
    if(e.diagnostic)j.diagnostic=sanitize(e.diagnostic);
    if(e.rejected){j.submitAttempted=false;await update('FAILED',j.error);}

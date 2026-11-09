@@ -12,7 +12,8 @@ test('production UI and real reference photos work after LAN pairing and retain 
  const server=createEditorServer(root,{lan:true,hosts:['192.168.50.10'],pairCode:'123456'});
  let listening=false;
  try{
-  for(const file of ['local_demo.html','app.css','editor.css','structure_editor.html'])await fs.copyFile(new URL('../'+file,import.meta.url),path.join(root,file));
+  const consumerFiles=['consumer.css','consumer_editor.mjs','try_on.mjs','comparison_view.mjs','simple_gesture.mjs','viewer_activity.mjs','deployment_ui.mjs','personal_effect_ui.mjs','uniform_scale.mjs','button_hints.mjs','app_orientation.mjs','effect_history.mjs','editor_persistence.mjs','editor_viewport.mjs','editor_ui.mjs','editor_capture.mjs'];
+  for(const file of ['local_demo.html','app.css','editor.css','structure_editor.html',...consumerFiles])await fs.copyFile(new URL('../'+file,import.meta.url),path.join(root,file));
   const manager=new LocalProjects(root),p=await manager.create({name:'真实项目 <test>',mode:'generation'});
   const file='11111111-1111-4111-8111-111111111111.png',photo=Buffer.from('test-reference-image');
   p.uploads=[{id:file.slice(0,-4),file,name:'房间.png',kind:'image',size:photo.length,check:{warnings:[]}}];await manager.save(p);await fs.writeFile(path.join(manager.dir(p.id),'inputs',file),photo);
@@ -27,7 +28,8 @@ test('production UI and real reference photos work after LAN pairing and retain 
   const get=(url,extra={})=>request(url,{...extra,headers:{Cookie:cookie,...extra.headers}});
   const home=await get('/');assert.equal(home.status,200);assert.match(await home.text(),/data-ui-version="integrated-v1"/);
   for(const resource of ['/app.css','/editor.css']){const r=await get(resource);assert.equal(r.status,200);assert.match(r.headers.get('content-type'),/text\/css/);assert.equal(r.headers.get('cache-control'),'no-store');}
-  const editor=await get('/structure_editor.html?project='+p.id);assert.equal(editor.status,200);assert.match(await editor.text(),/id="saveDialog"/);
+  const editor=await get('/structure_editor.html?project='+p.id);assert.equal(editor.status,200);assert.match(await editor.text(),/id="editorBack"/);
+  for(const file of consumerFiles){const r=await get('/'+file);assert.equal(r.status,200);assert.match(r.headers.get('content-type'),file.endsWith('.css')?/text\/css/:/javascript/);}
   const image=await get(ref);assert.equal(image.status,200);assert.equal(image.headers.get('content-type'),'image/png');assert.deepEqual(Buffer.from(await image.arrayBuffer()),photo);
   const head=await get(ref,{method:'HEAD'});assert.equal(head.status,200);assert.equal((await head.arrayBuffer()).byteLength,0);
   assert.equal((await get(ref+'/other')).status,404);

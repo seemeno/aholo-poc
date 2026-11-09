@@ -1,0 +1,79 @@
+{
+  "method": "built-in image_gen.imagegen",
+  "project": "衣服都可以试穿，家具为什么不能试摆",
+  "constraints": [
+    "原有沙发、茶几、地毯、绿植保留，仅在窗边试摆新椅子",
+    "两款候选：白色布艺沙发椅、藤编带白色坐垫与靠垫的椅子",
+    "横版背景，字幕和正式工具操作画面后续制作"
+  ],
+  "prompts": [
+    {
+      "key": "room_final",
+      "prompt": "Use case: ads-marketing.\nAsset type: clean 16:9 landscape keyframe/background plate for a 30-second Chinese furniture try-before-buy product explainer.\nPrimary request: create ONE photorealistic, believable lived-in contemporary apartment living room, final furnished version. No people or characters.\nScene: modest elegant living room, warm off-white walls, pale natural oak plank floor, broad window on LEFT wall with sheer white curtains, soft morning daylight. Oatmeal straight sofa on RIGHT, low oval natural oak coffee table centered on a light woven rug, one restrained abstract framed print over sofa. A SINGLE cream boucle upholstered rounded lounge armchair by the left window, angled about 25 degrees toward the coffee table/camera, clearly visible with a generous small gap around it. This cream chair is the hero: rounded curved back and arms, separate plump seat cushion, four short tapered natural oak legs, no ottoman. Small plant behind it near window, never occluding chair.\nComposition: fixed eye-level wide camera from opposite room corner, natural 28mm interior photography, straight verticals, window left and sofa right, chair occupies middle-left; attractive calm ordinary apartment rather than a luxury mansion. Leave lower 15% visually quiet for later character overlays and captions, and upper right light wall fairly quiet for later title. Show full chair and legs, enough floor, no cropped furniture.\nStyle: premium natural real-estate/interior photography with believable linen, boucle and wood texture, soft shadows, neutral color rendering, gentle sunlight, realistic room scale.\nConstraints: one continuous full-bleed image, wide 16:9, no collage, NO text, NO subtitles, NO speech bubbles, NO UI, NO numbers, NO logos, NO watermark. Do not add a second armchair. This exact room/chair/camera will be reused across other shots."
+    },
+    {
+      "key": "character_a",
+      "prompt": "Use case: illustration-story.\nAsset type: full-body transparent-background character cutout for compositing at the bottom of a furniture product demo.\nPrimary request: ONE original charming 2D small adult cartoon character A, gender-neutral young adult, short dark slightly tousled hair, warm apricot/orange sweatshirt, cream straight-leg trousers, white low-top shoes, simple expressive friendly face with small black dot eyes and a tiny smile. Person who is enthusiastic about a new chair. Holding a small dark smartphone casually in LEFT hand at hip height, RIGHT hand open and gently pointing toward the upper right as if showing an idea. Three-quarter facing right.\nStyle: polished modern editorial mascot, clean dark brown uniform outlines, softly rounded shapes, flat warm muted colors with very subtle shading, 3-heads-tall proportions (adult mascot, not baby), clean high-resolution silhouette, easy to animate with simple translation and rotation.\nComposition: one full-body figure centered on canvas, head hands feet completely visible, generous transparent margin on all sides, no cropped parts. Not multiple poses, not a character sheet.\nConstraints: actual transparent alpha background, no white card, no background scene, no ground, no floor, no cast shadow outside character, no captions, no speech bubbles, no letters, no logos, no watermark. Only one person, no furniture. This is character A of a couple of equally likable adult mascots."
+    },
+    {
+      "key": "room_rattan",
+      "transparent": false,
+      "refs": [
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-f7047358-fb5a-4adb-81f8-0edcd281c8bc.png"
+      ],
+      "prompt": "Use case: precise-object-edit.\nAsset type: photorealistic 16:9 alternative final room keyframe for a furniture comparison explainer.\nImage 1 is the EDIT TARGET and authoritative room/camera reference. Change ONLY the cream upholstered armchair at the left window to a DIFFERENT candidate chair: an elegant natural honey-oak/rattan lounge armchair with visible woven cane/rattan rounded back and side panels, smooth slender curved solid wood frame, gently rounded armrests, four gracefully tapered wooden legs, a thick warm white linen seat cushion and a smaller matching removable white back cushion. The woven rattan must be clearly visible around the cushions and distinguish it strongly from an all-upholstered sofa chair. Beautiful believable real furniture construction; natural cane webbing with fine visible weave, not wire, plastic, wicker basket or rope.\nKeep the new chair in the EXACT SAME window-side floor position, similar footprint and angle toward the camera/coffee table as the old chair. Integrate realistic floor contact, daylight and local shadow.\nPreserve ALL other pixels and objects as closely as possible: oatmeal sofa, all cushions and throw, oval coffee table, vase, books, bowl, rug edges, plants, plant pots, side table, lamp, wall art, window and outdoor foliage, curtains, walls and wood floor. No rearranging existing furniture. Same fixed camera, framing, room proportions, soft daylight, color grade and 16:9 aspect. Only ONE new accent chair. No people, no words, no red circle, no annotations, no UI, no logos, no watermark. One full-bleed room photograph, no split screen, no collage."
+    },
+    {
+      "key": "rattan_product",
+      "transparent": true,
+      "refs": [
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-900cd6af-20ef-4a80-b8fa-16c63f181ed5.png"
+      ],
+      "prompt": "Use case: background-extraction.\nAsset type: isolated furniture product photograph for upload and compositing in furniture try-before-buy demo.\nImage 1 is reference for the EXACT CHAIR to extract: the single honey-colored natural rattan/cane lounge armchair by the window on the LEFT. Reproduce ONLY this rattan chair as one clean isolated photoreal product cutout on actual transparent alpha background. Exact curved honey wood frame, curved woven cane back and side panels, slender rounded wooden arms and four tapered legs, thick ivory linen seat cushion and smaller loose square ivory back cushion. Preserve exact design, relative proportions, rich woven material texture, cushion color and same three-quarter camera angle. Whole chair and feet visible, centered within a square canvas with generous transparent padding. Photographic quality, soft neutral daylight illuminating chair itself.\nNO room, plant, sofa, floor, rug or props. No cast floor shadow, no glow, no backdrop, no checkerboard painted in, no vignette. Pixels outside actual chair fully transparent alpha zero, including visible gaps between legs and open negative spaces. Clean antialiased edges. No words, labels, branding or watermark. Only ONE chair."
+    },
+    {
+      "key": "opening_frame",
+      "transparent": false,
+      "refs": [
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-0d07e203-3ad7-42e4-b71f-1b81d266597c.png",
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-8f6e018c-531b-49cb-ab9d-5487005f202a.png",
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-900cd6af-20ef-4a80-b8fa-16c63f181ed5.png",
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-f2f2b4c6-654a-4edb-92ba-f61b5d820174.png",
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-cf4d3fb5-bfa0-46cf-9058-b874f2976d54.png"
+      ],
+      "prompt": "Use case: ads-marketing.\nAsset type: ONE 16:9 wide opening keyframe for a 30-second Chinese furniture try-before-buy explainer, designed for later animation and subtitles.\nINPUT ROLES: Image 1 = AUTHORITATIVE BACKGROUND PLATE (already furnished living room WITHOUT an accent chair); Image 2 = white upholstered candidate chair reference; Image 3 = reference ONLY for the rattan chair at the left window, not for background state; Image 4 = exact cartoon character A identity (orange sweatshirt, phone and presenting gesture); Image 5 = exact cartoon character B identity (sage green top, thoughtful hand near chin). Composite these coherently.\nPrimary request: Keep the photorealistic living room of Image 1 exactly as the background, with its existing sofa, coffee table, rug, plants, curtains, wall art and lamp. The window-side floor must remain UNFILLED: there is NO new accent chair physically standing in this opening scene. Show TWO small clean white floating rounded product-photo cards in the upper left/upper middle, clearly separate from the physical room: white upholstered boucle chair from Image 2 in first card; honey natural rattan lounge chair with white seat and back cushions from Image 3 in second card. Equal card sizes, same product scale, tasteful tiny soft card shadow. Cards contain only furniture photographs, no words, no prices, no icons, no UI buttons, no extra product.\nPlace cartoon A at the bottom-left and B at the bottom-right, each small, full body visible, same height about 27% of frame height with 3% bottom margin. Preserve their exact identities, outfits, proportions and illustration style. A looks toward chairs/partner; B looks toward chairs/partner. Cartoon overlay style should clearly read as two small commentators over a real room, not full-size physical people occupying the room. No added glow or cartoon outlines around room objects. Keep broad lower-middle area and upper-right area available for later video dialogue/title overlay.\nDo not cover the hero sofa or coffee table more than necessary. Harmonious, clear uncluttered composition with comfortable breathing room.\nCRITICAL: NO written text at all, NO letters, NO title, NO speech bubbles, NO subtitles, NO logos, NO watermark, NO red circle, NO fake tool interface. One continuous landscape image, no storyboard panels. 16:9."
+    },
+    {
+      "key": "room_before",
+      "transparent": false,
+      "refs": [
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-f7047358-fb5a-4adb-81f8-0edcd281c8bc.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset type: 16:9 photo input and background plate for furniture try-before-buy video. Image 1 is the EDIT TARGET and authoritative room/camera reference. REMOVE ONLY the cream boucle armchair next to the window at the left foreground, including its oak legs and cast shadow. Reconstruct the small area of rug, floor, lower wall, curtain and plant pot revealed behind it with geometrically correct continuation. The room must remain a FURNISHED lived-in living room, not an empty room. Keep sofa, sofa cushions, draped throw, coffee table, vase, books, bowl, rug, side table, lamp, plants, wall art, window view, curtains and their exact positions, texture, lighting and scale unchanged. Keep fixed camera, perspective, framing, aspect and color grade. Do NOT remove any existing object except that one cream armchair. No people. No words, letters, UI, logos or watermarks. This is the BEFORE state before adding one new chair to an already furnished home. One full-bleed image, no collage."
+    },
+    {
+      "key": "chair_product",
+      "transparent": true,
+      "refs": [
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-f7047358-fb5a-4adb-81f8-0edcd281c8bc.png"
+      ],
+      "prompt": "Use case: background-extraction. Asset type: furniture product photograph cutout, used as uploaded chair reference in a furniture try-before-buy video. Image 1 is the authoritative reference for EXACT CHAIR IDENTITY. Extract/reproduce ONLY the single cream boucle armchair from the left window area as ONE isolated photorealistic product cutout on genuinely TRANSPARENT alpha background. Match its rounded wraparound back and arms, separate thick seat cushion, cream nubby boucle fabric, and four short tapered natural oak legs, same 3/4 angle as source. Show entire chair including legs, comfortably centered with generous margins, no cropping. Keep chair shape, material, design and color identical. Sharp clean natural silhouette with antialiasing only at actual object edge. Soft studio illumination on chair itself. Do not include plants, room, rug, floor, cast floor shadow, glow, aura, vignette, labels, text, cards or other objects. NO painted checkerboard or opaque white background. ONE chair only. Square product-oriented canvas."
+    },
+    {
+      "key": "character_b",
+      "transparent": true,
+      "refs": [
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-966b4b2c-4117-4f4a-95d8-46eff583e26b.png"
+      ],
+      "prompt": "Use case: illustration-story. Asset type: transparent full-body adult cartoon character B for furniture demo video, matching the style of supplied character A. Image 1 is a STYLE REFERENCE, not the same person. Generate ONE partner character B with short dark-brown bob haircut tucked behind one ear, muted sage-green sweatshirt, warm cream trousers and white low-top shoes. Same adult age and head/body proportion, clean dark brown outlines, warm skin tone, simple expressive eyes, tiny friendly smile, same polished flat editorial cartoon illustration and light internal shading as reference. B faces three-quarter LEFT, looking slightly up-left toward the demo content and partner. One hand under chin in a gentle thoughtful pose, other arm loosely across waist, friendly and curious rather than disapproving. Full head, hands and shoes visible, entire body centered with transparent margin. ONLY ONE person, no duplicate poses, no sheet. Actual transparent alpha background. CRITICAL: hard clean silhouette with antialiasing at actual edge only; NO brown/black gradient background, NO vignette, NO glow, NO halo, NO floor, NO cast shadow. No words, no speech bubbles, no props, no logo, no watermark."
+    },
+    {
+      "key": "character_a_clean",
+      "transparent": true,
+      "refs": [
+        "C:\\Users\\90302\\.codex\\generated_images\\01a1bc45-6ad1-7790-937e-3652da7f4542\\exec-966b4b2c-4117-4f4a-95d8-46eff583e26b.png"
+      ],
+      "prompt": "Use case: background-extraction. Asset type: clean transparent-background character A cutout for animation compositing. Image 1 is EDIT TARGET. Keep exactly the same SINGLE full-body orange-sweatshirt cartoon adult, identity, face, hair, pose, smartphone, cream pants, white shoes, outline, body proportions, illustration style and interior colors. Change ONLY the unwanted fuzzy brown glow/gradient aura and shadow around the silhouette: REMOVE all background pixels, brown fog, drop shadow and halo. Make every pixel outside the actual person and phone fully transparent alpha zero, with only a very narrow natural antialiased edge. Do not add any background, do not regenerate or alter the person. Keep full body with all head, hair, hands and shoes inside the canvas and generous transparent padding. No floor, no light bloom, no glow, no matte fringe, no text, no watermark."
+    }
+  ]
+}

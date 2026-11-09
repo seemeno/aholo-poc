@@ -2,6 +2,14 @@ import {footprint} from './placement.mjs';
 import {pointInside, floorPolygon} from './geometry.mjs';
 
 export const BUILTIN_OBJECT='builtin_tv';
+export function roomItemLibrary(assets=[],jobs=[]){
+ const sources=new Set([...assets.filter(a=>a.kind==='glb').map(a=>a.sourceAssetId),...jobs.filter(j=>j.category!=='picture').map(j=>j.sourceAssetId)].filter(Boolean));
+ const ready=new Map(jobs.filter(j=>j.state==='READY'&&j.resultAssetId).map(j=>[j.resultAssetId,j]));
+ const items=new Map();
+ for(const asset of assets){if(asset.kind!=='glb'&&(asset.kind!=='image'||sources.has(asset.id)))continue;const job=ready.get(asset.id);items.set(asset.id,{id:asset.id,name:job?.name??asset.name.replace(/\.[^.]+$/,''),kind:asset.kind,category:job?.category??asset.category??(asset.kind==='image'?'picture':'furniture'),sourceAssetId:asset.kind==='image'?asset.id:asset.sourceAssetId??job?.sourceAssetId});}
+ for(const [id,job]of ready)if(!items.has(id))items.set(id,{id,name:job.name,kind:job.category==='picture'?'image':'glb',category:job.category,sourceAssetId:job.sourceAssetId});
+ return [...items.values()];
+}
 export function randomUuidV4(cryptoApi=globalThis.crypto){
   if(typeof cryptoApi?.randomUUID==='function')return cryptoApi.randomUUID();
   if(typeof cryptoApi?.getRandomValues!=='function')throw Error('此浏览器无法安全生成对象 ID');
@@ -27,6 +35,7 @@ export function validateObjects(scene){
       typeof o.visible!=='boolean'||!['x','y','z','yaw'].every(k=>Number.isFinite(o.pose?.[k]))||
       !['width','depth','height'].every(k=>Number.isFinite(o.size?.[k])&&o.size[k]>0&&o.size[k]<=1000)||
       !['free','floor','wall'].includes(o.mode)||!Number.isFinite(o.gap)||o.gap<0||!['-Y','+Y','-X','+X'].includes(o.back)||typeof o.align!=='boolean')throw Error('物品数据无效');
+    if(o.measuredAxes!==undefined&&(!Array.isArray(o.measuredAxes)||new Set(o.measuredAxes).size!==o.measuredAxes.length||o.measuredAxes.some(k=>!['width','depth','height'].includes(k))))throw Error('物品尺寸来源无效');
     if(o.mode==='wall')o.mode='floor';
     o.selectedWall='';o.align=false;
     if(o.assetId===BUILTIN_OBJECT&&o.assetKind!=='glb')throw Error('内置物品类型无效');

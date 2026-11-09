@@ -1,6 +1,22 @@
 // Browser-only preliminary checks. The computer still validates the saved bytes.
 // Compatibility policy verified with the phone-photo World generation diagnostic.
 export const ROOM_PHOTO_MAX_EDGE=2048;
+export async function decodePhotoFile(file){
+ if(typeof createImageBitmap==='function'){
+  try{return await createImageBitmap(file,{imageOrientation:'from-image'});}catch{}
+  try{return await createImageBitmap(file);}catch{}
+ }
+ return new Promise((resolve,reject)=>{
+  const url=URL.createObjectURL(file),image=new Image();
+  image.onload=()=>{URL.revokeObjectURL(url);resolve(image);};
+  image.onerror=()=>{URL.revokeObjectURL(url);reject(Error('此浏览器无法读取这张照片。HEIC/HEIF 请先导出为 JPEG，或重新拍摄；已选照片会保留。'));};image.src=url;
+ });
+}
+let photoPreview;
+export function showPhotoPreview(url,title='照片预览'){
+ if(!photoPreview){photoPreview=document.createElement('dialog');photoPreview.className='space-dialog photo-preview-dialog';photoPreview.setAttribute('aria-labelledby','photoPreviewTitle');photoPreview.innerHTML='<h2 id="photoPreviewTitle"></h2><img alt="完整照片预览"><p>请核对照片方向与完整轮廓。预览保留整张图片，不裁切。</p><button type="button">返回</button>';photoPreview.querySelector('button').onclick=()=>photoPreview.close();document.body.append(photoPreview);}
+ photoPreview.querySelector('h2').textContent=title;photoPreview.querySelector('img').src=url;if(!photoPreview.open)photoPreview.showModal();
+}
 export function roomPhotoDimensions(width,height){
  if(!Number.isSafeInteger(width)||!Number.isSafeInteger(height)||width<=0||height<=0)throw Error('照片没有可读取的像素尺寸。');
  const scale=Math.min(1,ROOM_PHOTO_MAX_EDGE/Math.max(width,height));
@@ -30,6 +46,6 @@ export function checkPhotoCanvas(source){
  return photoQuality({width:source.width,height:source.height,sharpness:count?squares/count-(sum/count)**2:0});
 }
 export async function inspectPhotoFile(file){
- const image=await createImageBitmap(file,{imageOrientation:'from-image'});
- try{return checkPhotoCanvas(image);}finally{image.close();}
+ const image=await decodePhotoFile(file);
+ try{return checkPhotoCanvas(image);}finally{image.close?.();}
 }

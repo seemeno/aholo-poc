@@ -21,5 +21,6 @@ export function createPhotoDraftUI({form,read,apply,hasContent}){
  function schedule(){if(current&&!blocked)current.writer.schedule(read());}
  window.addEventListener('beforeunload',e=>{if([...sessions.values()].some(s=>s.writer.pending())){e.preventDefault();e.returnValue='';}});
  window.addEventListener('pagehide',()=>{for(const s of sessions.values())s.writer.flush().catch(()=>{});});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){schedule();for(const s of sessions.values())s.writer.flush().catch(()=>{});}});
  return {switchTo,schedule,leave(){const session=current;current=null;blocked=true;++token;session?.writer.flush().catch(()=>{});},async flush(){schedule();await current?.writer.flush();},async clear(){const session=current;current=null;blocked=false;++token;form.inert=false;form.hidden=false;banner.hidden=true;status.textContent='';await session?.writer.clear();const last=await localDrafts.get('last-room-draft');if(last?.key===session?.key)await localDrafts.remove('last-room-draft');window.dispatchEvent(new Event('local-drafts-updated'));}};
 }

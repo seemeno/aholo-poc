@@ -11,3 +11,5 @@
 *.png binary
 *.glb binary
 *.ply binary
+assets/showcase/*.gz -filter -diff -merge -text
+assets/showcase/*.br -filter -diff -merge -text

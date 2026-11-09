@@ -1,0 +1,28 @@
+{
+  "video": "furniture-try-before-buy-30s-vertical.mp4",
+  "bytes": 4703967,
+  "durationSeconds": 30,
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "frames": 900,
+  "checks": {
+    "duration30Seconds": true,
+    "vertical1080x1920": true,
+    "frameRate30": true,
+    "h264Video": true,
+    "aacStereoAudio": true,
+    "frames900": true,
+    "fullDecodeSucceeded": true
+  },
+  "production": {
+    "characterStyle": "Warm stylized 3D half-body avatars, transparent source PNGs",
+    "characterImages": "Generated with the built-in image_gen.imagegen tool",
+    "speech": "Local Chinese Kangkang and Yaoyao voices; 13 timed dialogue lines",
+    "music": "Original quietly mixed synthesized plucked-key accompaniment",
+    "upload": "Actual app photo-upload section captures, isolated local server",
+    "placement": "Illustrative animation of a chair cutout, labeled in the video",
+    "finalRoom": "AI-generated illustrative furnishing references, labeled in the video",
+    "cloudGenerationSubmitted": false
+  }
+}

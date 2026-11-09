@@ -20,8 +20,8 @@ export function pngDimensions(bytes){
 }
 export class LocalEffectRenderer{
  constructor(root,{runtime,projects}={}){
-  this.root=root;this.base=path.join(root,'local-data/effect-renders');this.projects=projects??new LocalProjects(root);this.runtime=runtime??new EffectRuntime(root);
-  if(!pools.has(root))pools.set(root,{flights:new Map(),running:new Set(),tail:Promise.resolve()});this.pool=pools.get(root);
+  this.root=root;this.projects=projects??new LocalProjects(root);this.base=path.join(path.dirname(this.projects.base),'effect-renders');this.runtime=runtime??new EffectRuntime(root);
+  if(!pools.has(this.base))pools.set(this.base,{flights:new Map(),running:new Set(),tail:Promise.resolve()});this.pool=pools.get(this.base);
  }
  dir(id){if(!/^[a-f0-9]{64}$/.test(id))throw Error('效果图 ID 无效');return path.join(this.base,id);}
  // Append complete durable snapshots: Windows readers cannot block a rename-overwrite,
@@ -31,7 +31,9 @@ export class LocalEffectRenderer{
   try{const lines=(await fs.readFile(path.join(this.dir(id),'job.ndjson'),'utf8')).split('\n');for(let i=lines.length-1;i>=0;i--){try{if(lines[i])return JSON.parse(lines[i]);}catch{}}throw Error('效果图状态尚未完整保存');}
   catch(e){if(e.code!=='ENOENT')throw e;return JSON.parse(await fs.readFile(path.join(this.dir(id),'job.json'),'utf8'));}
  }
- public(j){return {id:j.id,projectId:j.projectId,state:j.state,message:j.message,createdAt:j.createdAt,updatedAt:j.updatedAt,completedAt:j.completedAt??null,elapsedMs:j.completedAt?Date.parse(j.completedAt)-Date.parse(j.createdAt):null,width:j.width,height:j.height,backend:'FLUX.2 Klein 4B · 本地',recipe:j.recipe,referenceCount:j.references.length,imageUrl:j.state==='READY'?`/api/effect-renders/${j.id}/image`:null,previewUrl:`/api/effect-renders/${j.id}/preview`,snapshotHash:j.sceneHash,planFingerprint:planFingerprint(j.scene),sourceSavedAt:j.sourceSavedAt??null};}
+ public(j){return {id:j.id,projectId:j.projectId,state:j.state,message:j.message,createdAt:j.createdAt,updatedAt:j.updatedAt,completedAt:j.completedAt??null,elapsedMs:j.completedAt?Date.parse(j.completedAt)-Date.parse(j.createdAt):null,width:j.width,height:j.height,provider:j.provider??'local',backend:j.provider==='modelscope'?'Qwen-Image-Edit-2511 · 个人额度':'FLUX.2 Klein 4B · 本地',recipe:j.recipe,referenceCount:j.references.length,imageUrl:j.state==='READY'?`/api/effect-renders/${j.id}/image`:null,previewUrl:`/api/effect-renders/${j.id}/preview`,snapshotHash:j.sceneHash,planFingerprint:planFingerprint(j.scene),sourceSavedAt:j.sourceSavedAt??null};}
+ bindContext(){}
+ runtimeFor(){return this.runtime;}
  async references(projectId,scene){
   const visible=scene.objects.filter(o=>o.visible),refs=[];
   if(visible.some(o=>o.assetId==='builtin_tv')){
@@ -54,7 +56,7 @@ export class LocalEffectRenderer{
   // latents caused extra plants/furniture in real tests; retain one product ref.
   return refs.slice(0,1);
  }
- async start(body){
+ async start(body,context={}){
   const projectId=body?.projectId;this.projects.dir(projectId??'');
   const scene=validateScene(body.scene);if(scene.projectId!==projectId||!scene.camera)throw Error('缺少当前项目的机位快照');
   if(!scene.objects.some(o=>o.visible))throw Error('请先摆放并显示至少一件物品');
@@ -65,24 +67,24 @@ export class LocalEffectRenderer{
   if(typeof body.preview!=='string'||body.preview.length>6*1024**2||!/^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/.test(body.preview))throw Error('场景截图无效或过大');
   const image=Buffer.from(body.preview.slice(body.preview.indexOf(',')+1),'base64'),size=pngDimensions(image);
   if(image.length>4*1024**2||scene.camera.resolution?.join(',')!==[size.width,size.height].join(','))throw Error('截图与保存机位的分辨率不一致');
-  const sceneHash=digest(renderContent(scene)),flightKey=projectId+':'+sceneHash;
+  const sceneHash=digest(renderContent(scene)),flightKey=projectId+':'+sceneHash+':'+(context.credentialOwner??'local');
   if(this.pool.flights.has(flightKey))return this.pool.flights.get(flightKey);
-  const promise=this.create({projectId,scene,sceneHash,sourceSavedAt:saved.savedAt??null,image,...size,force:body.force===true}).finally(()=>this.pool.flights.delete(flightKey));
+  const promise=this.create({projectId,scene,sceneHash,sourceSavedAt:saved.savedAt??null,image,...size,context,force:body.force===true}).finally(()=>this.pool.flights.delete(flightKey));
   this.pool.flights.set(flightKey,promise);return promise;
  }
- async create({projectId,scene,sceneHash,sourceSavedAt,image,width,height,force}){
-  const latest=await this.latest(projectId,false);
-  if(latest&&latest.snapshotHash===sceneHash&&!terminal.has(latest.state))return latest;
+ async create({projectId,scene,sceneHash,sourceSavedAt,image,width,height,force,context={}}){
+  const latest=await this.latest(projectId,false,context);
+  if(latest&&latest.snapshotHash===sceneHash&&!terminal.has(latest.state)&&(await this.load(latest.id)).credentialOwner===context.credentialOwner){const existing=await this.load(latest.id);this.bindContext(existing,context);this.enqueue(existing);return latest;}
   const refs=await this.references(projectId,scene);
   const room=await fs.stat(path.join(this.projects.dir(projectId),'room.ply'));
-  const id=digest(stable({recipe:EFFECT_RECIPE,projectId,sceneHash,image:digest(image),refs:refs.map(r=>digest(r.bytes)),room:{bytes:room.size,mtime:room.mtimeMs},nonce:force?crypto.randomUUID():null}));
-  try{const existing=await this.load(id);if(!terminal.has(existing.state))this.enqueue(existing);return this.public(existing);}catch(e){if(e.code!=='ENOENT')throw e;}
+  const recipe=this.recipe??EFFECT_RECIPE,id=digest(stable({recipe,credentialOwner:context.credentialOwner,projectId,sceneHash,image:digest(image),refs:refs.map(r=>digest(r.bytes)),room:{bytes:room.size,mtime:room.mtimeMs},nonce:force?crypto.randomUUID():null}));
+  try{const existing=await this.load(id);if(!terminal.has(existing.state)){this.bindContext(existing,context);this.enqueue(existing);}return this.public(existing);}catch(e){if(e.code!=='ENOENT')throw e;}
   await fs.mkdir(this.dir(id),{recursive:true});
   const references=refs.map((r,i)=>({label:r.label,file:`reference-${i}${r.ext}`,mime:r.mime,ext:r.ext,sha256:digest(r.bytes)}));
-  const j={id,projectId,sceneHash,sourceSavedAt,scene,recipe:EFFECT_RECIPE,seed:20261105,width,height,state:'QUEUED',message:'已保存当前机位，正在等待电脑生成',createdAt:new Date().toISOString(),references,previewSha256:digest(image),submitAttempted:false};
+  const j={id,projectId,sceneHash,sourceSavedAt,scene,recipe,provider:this.provider??'local',...(context.credentialOwner?{credentialOwner:context.credentialOwner}:{}),seed:20261105,width,height,state:'QUEUED',message:this.provider==='modelscope'?'已保存当前机位，等待使用个人额度生成':'已保存当前机位，正在等待电脑生成',createdAt:new Date().toISOString(),references,previewSha256:digest(image),submitAttempted:false};
   await fs.writeFile(path.join(this.dir(id),'preview.png'),image);
   await Promise.all(refs.map((r,i)=>fs.writeFile(path.join(this.dir(id),references[i].file),r.bytes)));
-  await this.save(j);this.enqueue(j);return this.public(j);
+  await this.save(j);this.bindContext(j,context);this.enqueue(j);return this.public(j);
  }
  enqueue(j){
   if(this.pool.running.has(j.id)||terminal.has(j.state))return;
@@ -92,27 +94,29 @@ export class LocalEffectRenderer{
  }
  async run(j){
   const update=async(state,message)=>{if(j.state===state&&j.message===message)return;j.state=state;j.message=message;await this.save(j);};
+  let runtime;
   try{
-   await update('PREPARING','正在准备电脑上的效果图模型');await this.runtime.ensure();
-   if(!j.promptId&&j.submitAttempted){j.promptId=await this.runtime.reconcile(j.id);if(!j.promptId){await update('SUBMIT_UNKNOWN','上次生成状态待确认，未自动重复提交；可以查看原预览或重新生成');return;}await this.save(j);}
+   runtime=this.runtimeFor(j);await update('PREPARING',j.provider==='modelscope'?'正在准备个人额度图片编辑任务':'正在准备电脑上的效果图模型');await runtime.ensure();
+   if(!j.promptId&&j.submitAttempted){j.promptId=await runtime.reconcile(j.id);if(!j.promptId){await update('SUBMIT_UNKNOWN','上次生成状态待确认，未自动重复提交；可以查看原预览或重新生成');return;}await this.save(j);}
    if(!j.promptId){
     const image=await fs.readFile(path.join(this.dir(j.id),'preview.png'));
     const refs=await Promise.all(j.references.map(async r=>({...r,bytes:await fs.readFile(path.join(this.dir(j.id),r.file))})));
-    j.promptId=await this.runtime.submit(j,image,refs,async graph=>{await fs.writeFile(path.join(this.dir(j.id),'workflow.json'),JSON.stringify(graph,null,2));j.submitAttempted=true;await this.save(j);});
+    j.promptId=await runtime.submit(j,image,refs,async graph=>{await fs.writeFile(path.join(this.dir(j.id),'workflow.json'),JSON.stringify(graph,null,2));j.submitAttempted=true;await this.save(j);});
     await this.save(j);
    }
    await update('GENERATING','正在生成效果图，首次加载通常需要几分钟');
-   const bytes=await this.runtime.wait(j,update),size=pngDimensions(bytes);
+   const bytes=await runtime.wait(j,update),size=pngDimensions(bytes);
    if(size.width!==j.width||size.height!==j.height)throw Error('效果图输出尺寸与当前机位不一致');
    await fs.writeFile(path.join(this.dir(j.id),'result.png.tmp'),bytes);await fs.rename(path.join(this.dir(j.id),'result.png.tmp'),path.join(this.dir(j.id),'result.png'));
-   j.resultSha256=digest(bytes);j.completedAt=new Date().toISOString();await update('READY','效果图已生成并保存到电脑项目');
+   j.resultSha256=digest(bytes);j.completedAt=new Date().toISOString();await update('READY',j.provider==='modelscope'?'效果图已生成并保存到共享项目':'效果图已生成并保存到电脑项目');
   }catch(e){
    if(j.promptId&&['TimeoutError','AbortError','TypeError'].includes(e.name))e.pending=true;
-   if(e.unknown)await update('SUBMIT_UNKNOWN',e.message);
+   if(e.credentialRequired)await update('WAITING_CREDENTIALS',j.submitAttempted&&!j.promptId?'提交结果待核对，请配置原 Token 后核对任务；不会自动重提':e.message);
+   else if(e.unknown)await update('SUBMIT_UNKNOWN',e.message);
    else if(e.pending)await update('WAITING','生成仍在进行，稍后回来查看即可');
    else if(j.submitAttempted&&!j.promptId)await update('SUBMIT_UNKNOWN','生成提交状态待确认，未自动重复提交；可重新打开查看或重新生成');
    else await update('FAILED',e.message?.slice(0,220)||'生成失败，请稍后重试');
-  }finally{await this.runtime.release();}
+  }finally{await runtime?.release();}
  }
  async get(id){const j=await this.load(id);if(!terminal.has(j.state))this.enqueue(j);return this.public(j);}
  async list(projectId){

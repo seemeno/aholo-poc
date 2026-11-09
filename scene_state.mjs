@@ -1,3 +1,4 @@
+import {validateTryOn} from './try_on.mjs';
 import {validateStructure} from './geometry.mjs';
 import {columnMatrix} from './placement.mjs';
 import {validateObjects} from './object_state.mjs';
@@ -15,6 +16,8 @@ export function validateScene(v){
   v.collisionValidation='FLOOR_AND_NEW_OBJECTS_ONLY';
   if(v.back&&!['-Y','+Y','-X','+X'].includes(v.back))throw Error('背面无效');
   for(const camera of [v.camera,v.rememberedCamera])if(camera){if(!Array.isArray(camera.rows)||camera.rows.length!==4||!camera.rows.every(r=>Array.isArray(r)&&r.length===4&&r.every(Number.isFinite))||!Number.isFinite(camera.verticalFov)||camera.verticalFov<=1||camera.verticalFov>=179)throw Error('相机参数无效');if(camera.resolution&&(!Array.isArray(camera.resolution)||camera.resolution.length!==2||!camera.resolution.every(x=>Number.isInteger(x)&&x>0&&x<=4500)))throw Error('相机分辨率无效');}
+  validateTryOn(v.tryOn);
+  for(const camera of [v.camera,v.rememberedCamera])if(camera?.viewAspect!==undefined&&(!Number.isFinite(camera.viewAspect)||camera.viewAspect<=0))throw Error('相机视野比例无效');
   validateObjects(v);
   v.assets={...ASSETS,worldId:v.worldId};v.placementMatrix=columnMatrix(v.pose);return v;
 }

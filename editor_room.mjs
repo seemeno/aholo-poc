@@ -55,6 +55,31 @@ export function constrainRoomMotion(from,to,room){
  return at(low);
 }
 
+export function roomHomeCamera(room){
+ const xs=room.polygon.map(p=>p[0]),ys=room.polygon.map(p=>p[1]),lo=[Math.min(...xs),Math.min(...ys)],hi=[Math.max(...xs),Math.max(...ys)],z=Math.max(room.bottom,Math.min(room.top,room.bottom-.08+1.4));
+ const candidates=[...room.centers.map(p=>[...p,z])];
+ for(let x=1;x<10;x++)for(let y=1;y<10;y++)candidates.push([lo[0]+(hi[0]-lo[0])*x/10,lo[1]+(hi[1]-lo[1])*y/10,z]);
+ const valid=candidates.filter(p=>insideRoom(p,room)),clearance=p=>Math.min(...room.polygon.map((a,i)=>distanceToEdge(p,a,room.polygon[(i+1)%room.polygon.length])));
+ valid.sort((a,b)=>clearance(b)-clearance(a));
+ const center=[(lo[0]+hi[0])/2,(lo[1]+hi[1])/2,z],position=insideRoom(center,room)?center:valid[0]??clampRoomPoint(center,room),target=valid.toSorted((a,b)=>Math.hypot(b[0]-position[0],b[1]-position[1])-Math.hypot(a[0]-position[0],a[1]-position[1]))[0]??position;
+ return {position:[...position],target:[target[0],target[1],Math.max(room.bottom,z-.2)]};
+}
+
+// Constrain the viewer's position, not its gaze. Looking outwards from a wall
+// must remain possible, and a blocked translation must not turn the camera.
+export function constrainRoomView(position,target,room,previous=null){
+ const safe=previous?constrainRoomMotion(previous,position,room):clampRoomPoint(position,room),direction=target.map((v,i)=>v-position[i]);
+ if(Math.hypot(...direction)<.05)direction.splice(0,3,.1,.1,0);
+ return {position:safe,target:safe.map((v,i)=>v+direction[i])};
+}
+
+export function inPlaceLook(position,target,dx,dy,screenWidth,screenHeight=screenWidth){
+ if(![...position,...target,dx,dy,screenWidth,screenHeight].every(Number.isFinite)||screenWidth<=0||screenHeight<=0)throw Error('视角输入无效');
+ const direction=target.map((v,i)=>v-position[i]),distance=Math.max(.1,Math.hypot(...direction)),yaw=Math.atan2(direction[1],direction[0])+dx*Math.PI*2/screenWidth;
+ const pitch=Math.max(-Math.PI*.44,Math.min(Math.PI*.44,Math.atan2(direction[2],Math.hypot(direction[0],direction[1]))+dy*Math.PI/screenHeight));
+ return {position:[...position],target:[position[0]+distance*Math.cos(pitch)*Math.cos(yaw),position[1]+distance*Math.cos(pitch)*Math.sin(yaw),position[2]+distance*Math.sin(pitch)]};
+}
+
 export function gizmoPlacement(position,rotation,scale){
  const values=[...position,rotation,...scale];if(!values.every(Number.isFinite)||scale.some(v=>v<.01||v>1000))throw Error('缩放后尺寸应在 1 厘米到 1000 米之间。');
  return {pose:{x:position[0],y:position[1],z:position[2],yaw:rotation},size:{width:scale[0],depth:scale[1],height:scale[2]}};

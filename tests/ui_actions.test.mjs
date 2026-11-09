@@ -23,11 +23,11 @@ test('ambiguous submission never offers a blind new submission; paused known tas
  assert.equal(taskPresentation('FAILED').action,'重新生成');
 });
 
-test('incomplete photo measurements survive a draft but cannot silently become a complete size',()=>{
+test('partial photo measurements are accepted separately for later proportional inference',()=>{
  assert.deepEqual(photoMeasurements({width:.8},{draft:true}),{draftSize:{width:.8}});
  assert.deepEqual(photoMeasurements({width:.8,depth:.7,height:.9},{draft:true}),{size:{width:.8,depth:.7,height:.9}});
  assert.deepEqual(photoMeasurements(undefined,{draft:true}),{});
- assert.throws(()=>photoMeasurements({width:.8}),e=>e.field==='depth');
+ assert.deepEqual(photoMeasurements({width:.8}),{draftSize:{width:.8}});
  for(const width of [NaN,0,-1,21])assert.throws(()=>photoMeasurements({width},{draft:true}),e=>e.field==='width');
  assert.equal(preparationLabel({replacement:true,confirmQuality:true}),'仍然生成');
  assert.equal(preparationLabel({replacement:true}),'用新照片重新生成');

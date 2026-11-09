@@ -1,0 +1,6 @@
+interface:
+  display_name: "TSX 预览"
+  short_description: "在任意本机 Codex 对话中预览 React TSX 和 Canvas 文件"
+  default_prompt: "使用 $tsx-preview 在当前 Codex 对话中预览我指定的 TSX 文件。"
+policy:
+  allow_implicit_invocation: true

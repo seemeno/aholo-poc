@@ -1,0 +1,101 @@
+{
+  "title": "衣服都可以试穿，家具为什么不能试摆",
+  "durationSeconds": 30,
+  "assets": [
+    {
+      "key": "room_before",
+      "file": "02-room-before.png"
+    },
+    {
+      "key": "chair_product",
+      "file": "03-chair-white.png"
+    },
+    {
+      "key": "rattan_product",
+      "file": "04-chair-rattan.png"
+    },
+    {
+      "key": "room_final",
+      "file": "05-room-white.png"
+    },
+    {
+      "key": "room_rattan",
+      "file": "06-room-rattan.png"
+    },
+    {
+      "key": "character_a_clean",
+      "file": "character-a-v2.png"
+    },
+    {
+      "key": "character_b",
+      "file": "character-b.png"
+    },
+    {
+      "key": "opening_frame",
+      "file": "01-opening.png"
+    }
+  ],
+  "timeline": [
+    {
+      "seconds": [
+        0,
+        10
+      ],
+      "scene": "开场对话，已布置客厅，展示两款椅子候选",
+      "assets": [
+        "01-opening.png",
+        "02-room-before.png",
+        "03-chair-white.png",
+        "04-chair-rattan.png",
+        "character-a-v2.png",
+        "character-b.png"
+      ]
+    },
+    {
+      "seconds": [
+        10,
+        16
+      ],
+      "scene": "上传房间照片与椅子图片，创建场景和生成家具",
+      "assets": [
+        "02-room-before.png",
+        "03-chair-white.png",
+        "04-chair-rattan.png"
+      ],
+      "requiresRealToolCapture": true
+    },
+    {
+      "seconds": [
+        16,
+        21
+      ],
+      "scene": "摆放椅子，移动位置与调整朝向",
+      "requiresRealToolCapture": true
+    },
+    {
+      "seconds": [
+        21,
+        26
+      ],
+      "scene": "白色沙发椅与藤编椅同视角效果对比",
+      "assets": [
+        "05-room-white.png",
+        "06-room-rattan.png"
+      ],
+      "note": "这些为AI制作的分镜效果素材；正式工具渲染演示应使用真实工具输出。"
+    },
+    {
+      "seconds": [
+        26,
+        30
+      ],
+      "scene": "最终效果与收尾文案，文案在剪辑阶段添加",
+      "assets": [
+        "05-room-white.png",
+        "06-room-rattan.png",
+        "character-a-v2.png",
+        "character-b.png"
+      ]
+    }
+  ]
+}

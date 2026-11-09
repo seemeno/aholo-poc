@@ -7,10 +7,10 @@ export function createSceneObjectList(stage,{storageKey,onSelect,onVisibility,on
  const add=button('添加场景物品','add'),collapse=button('缩小物品列表','collapse');add.id='sceneListAdd';collapse.id='sceneListCollapse';
  const body=document.createElement('div');body.id='sceneListBody';const rows=document.createElement('ul');rows.id='sceneObjectRows';
  body.append(rows);header.append(heading,add,collapse);root.append(header,body);stage.append(root);
- let minimized=false,last='';try{minimized=localStorage.getItem(storageKey)==='collapsed';}catch{}
+ let minimized=matchMedia('(max-width: 600px)').matches,last='';try{const stored=localStorage.getItem(storageKey);if(stored!==null)minimized=stored==='collapsed';}catch{}
  const collapseState=()=>{body.hidden=minimized;root.dataset.collapsed=String(minimized);collapse.setAttribute('aria-expanded',String(!minimized));collapse.setAttribute('aria-controls',body.id);const label=minimized?'展开物品列表':'缩小物品列表';collapse.title=label;collapse.setAttribute('aria-label',label);collapse.innerHTML=svg(minimized?'expand':'collapse');};
  collapse.onclick=()=>{minimized=!minimized;collapseState();try{localStorage.setItem(storageKey,minimized?'collapsed':'expanded');}catch{}};collapseState();add.onclick=onAdd;
- return {root,update(items,selectedId,assets,projectBase){
+ return {root,minimize(){minimized=true;collapseState();},update(items,selectedId,assets,projectBase){
   count.textContent=' '+items.length;const value=JSON.stringify({items:items.map(o=>[o.id,o.name,o.visible,o.assetId,o.assetKind]),selectedId,assets:assets.map(a=>[a.id,a.sourceAssetId])});if(last===value)return;last=value;
   const focused=root.contains(document.activeElement)?{id:document.activeElement.closest('[data-object-id]')?.dataset.objectId,action:document.activeElement.dataset.action}:null;
   rows.replaceChildren();if(!items.length){const empty=document.createElement('li');empty.className='scene-list-empty';empty.textContent='暂无新增物品，点击图片图标添加。原照片内容属于场景。';rows.append(empty);}

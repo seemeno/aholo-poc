@@ -1,0 +1,39 @@
+{
+  "version": "aholo-living-room-v1",
+  "worldId": "3FO4K4RIGVTB",
+  "name": "体验空间 · 预生成客厅",
+  "source": "Existing project demo: Aholo room and generated furniture; no new inference",
+  "size": {
+    "width": 1.8,
+    "depth": 0.4,
+    "height": 0.55
+  },
+  "files": {
+    "room.ply": {
+      "file": "room.ply.br",
+      "bytes": 14281912,
+      "sha256": "fb5eae5d836cbeba3f6fe86f34ed2d6af9ec8ccbead88cbc635fe2c324e0b9ac",
+      "encoding": "brotli"
+    },
+    "furniture.glb": {
+      "file": "furniture.glb.gz",
+      "bytes": 13157556,
+      "sha256": "d7394e8011c11bcb2636bfab89657a59f13916a9d707ac6cfffd470628e29f5b"
+    },
+    "point_preview.json": {
+      "file": "point_preview.json.gz",
+      "bytes": 803008,
+      "sha256": "9038b668feb26b0c8dd73af3cf4155f56dfae12cece7de027b6ca274ecb61e47"
+    },
+    "structure.json": {
+      "file": "structure.json.gz",
+      "bytes": 18725,
+      "sha256": "78d184e6e5b0ad0ba1b1f75019fe378a94bd8d26139693d519f646af7c476dfe"
+    },
+    "furniture_reference.png": {
+      "file": "furniture_reference.png.gz",
+      "bytes": 768939,
+      "sha256": "e5010da7b108a9374738b7e4f63e23e858ae25d35e672bea2c9e0154f2f31207"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "method": "built-in image_gen.imagegen",
+  "prompts": [
+    {
+      "key": "avatar_a_half",
+      "refs": [
+        "D:\\workspace\\aholo-poc\\assets\\video\\furniture-tryout-20261109-v1\\character-a-v2.png",
+        "D:\\workspace\\aholo-poc\\assets\\video\\furniture-tryout-20261109-v1\\05-room-white.png"
+      ],
+      "prompt": "Use case: style-transfer.\nAsset type: ONE transparent-background half-body presenter avatar for the dialogue region of a warm, tasteful vertical furniture product video.\nImage 1: character identity / outfit / gesture reference. Image 2: material, color and lighting mood reference ONLY; do not include the room.\nTransform the orange-sweatshirt adult presenter A into a softly sculpted, high-quality 3D editorial character with tactile matte materials and gentle natural warm daylight. Preserve recognizable short tousled dark brown hair, friendly adult male appearance, warm orange sweatshirt, smartphone held close to lower chest, and other hand gently open in a presenting gesture. Three-quarter view facing RIGHT toward a partner. Adult young professional, not a child. Calm friendly smile with mouth slightly open as if talking. Refined subtle facial detail, small natural eyebrows, rounded nose, warm skin with soft diffuse shading, visible yet restrained material depth. Semi-realistic stylized adult proportions with only modest head enlargement; avoid oversized baby head, giant eyes, toy-like shiny plastic or harsh black cartoon outlines.\nCOMPOSITION: waist-up ONLY, head shoulders arms and hands fully visible, lower torso ends in a clean straight horizontal waist crop, no legs. Person centered with generous transparent margin around head and hands. Suitable to shrink to a small bust at the bottom-left of a phone video. Simple solid orange garment, no logos.\nCRITICAL: actual transparent alpha background, only character and phone visible. No scene, no floor, no pedestal, no circular avatar border, no card, no text, no speech bubble, no vignette, no outer glow or drop shadow. One person, one pose. Do not include any furniture. Clean silhouette."
+    },
+    {
+      "key": "avatar_b_half",
+      "refs": [
+        "D:\\workspace\\aholo-poc\\assets\\video\\furniture-tryout-20261109-v1\\character-b.png",
+        "D:\\workspace\\aholo-poc\\assets\\video\\furniture-tryout-20261109-v1\\05-room-white.png"
+      ],
+      "prompt": "Use case: style-transfer.\nAsset type: ONE transparent-background half-body presenter avatar for the dialogue region of a warm, tasteful vertical furniture product video.\nImage 1: character identity / outfit / gesture reference. Image 2: material, color and lighting mood reference ONLY; do not include the room.\nTransform the sage-green-sweatshirt adult presenter B into a softly sculpted, high-quality 3D editorial character with tactile matte materials and gentle natural warm daylight. Preserve recognizable chin-length dark brown bob haircut, friendly adult female appearance, muted sage green sweatshirt, thoughtful pose with one hand lightly under chin and the other arm comfortably crossing at lower chest. Three-quarter view facing LEFT toward a partner. Adult young professional, not a child. Calm curious warm smile. Refined subtle facial detail, small natural eyebrows, rounded nose, warm skin with soft diffuse shading, visible yet restrained material depth. Semi-realistic stylized adult proportions with only modest head enlargement; avoid oversized baby head, giant eyes, toy-like shiny plastic or harsh black cartoon outlines.\nCOMPOSITION: waist-up ONLY, head shoulders arms and hands fully visible, lower torso ends in a clean straight horizontal waist crop, no legs. Person centered with generous transparent margin around head and hands. Suitable to shrink to a small bust at the bottom-right of a phone video. Simple solid sage green garment, no logos.\nCRITICAL: actual transparent alpha background, only character visible. No scene, no floor, no pedestal, no circular avatar border, no card, no text, no speech bubble, no vignette, no outer glow or drop shadow. One person, one pose. Do not include any furniture. Clean silhouette."
+    }
+  ]
+}
